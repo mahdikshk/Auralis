@@ -1,0 +1,29 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Auralis.Animation/" />
+  <Folder Name="/src/Auralis.Asset/" />
+  <Folder Name="/src/Auralis.Asset/Importers/" />
+  <Folder Name="/src/Auralis.Audio/" />
+  <Folder Name="/src/Auralis.Core/">
+    <Project Path="src/Auralis.Core/Auralis.Core.IO/Auralis.Core.IO.csproj" Id="ebcf61f1-02d0-4ced-ad1c-727a6db355f6" />
+    <Project Path="src/Auralis.Core/Auralis.Core.Mathematics/Auralis.Core.Mathematics.csproj" Id="cddb4239-c61b-4b0c-ac6c-51fed246fcff" />
+    <Project Path="src/Auralis.Core/Auralis.Core/Auralis.Core.csproj" Id="9d2c0d7f-f027-45a2-a98d-61a5fd874340" />
+  </Folder>
+  <Folder Name="/src/Auralis.Editor/" />
+  <Folder Name="/src/Auralis.Graphics/" />
+  <Folder Name="/src/Auralis.Memory/" />
+  <Folder Name="/src/Auralis.Physics/" />
+  <Folder Name="/src/Auralis.Platform/" />
+  <Folder Name="/src/Auralis.Render/" />
+  <Folder Name="/src/Auralis.Scene/" />
+  <Folder Name="/src/Auralis.Simulation/" />
+  <Folder Name="/src/Auralis.Tools/" />
+  <Folder Name="/src/Auralis.Tools/AssetPipeLine/">
+    <Project Path="src/Auralis.Tools/AssetPipeline/Auralis.Tools.AssetPipeline.Interchange/Auralis.Tools.AssetPipeline.Interchange.csproj" Id="f4d7b0ef-3b06-44b9-a044-972e6b501a13" />
+  </Folder>
+  <Folder Name="/src/Auralis.World/" />
+  <Folder Name="/src/AuralisRuntime/">
+    <Project Path="src/AuralisRuntime/Auralis.Engine/Auralis.Engine.csproj" Id="f73ad8e1-9bf3-4fc1-895d-51bec0e42b07" />
+  </Folder>
+  <Folder Name="/Tests/" />
+</Solution>
