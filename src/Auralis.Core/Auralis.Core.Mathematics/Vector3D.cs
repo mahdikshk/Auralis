@@ -574,7 +574,7 @@ public struct Vector3D
                 newvector -= Dot(destination[r], newvector) * destination[r];
             }
 
-            newvector.Normalize();
+            newvector = newvector.Normalize();
             destination[i] = newvector;
         }
     }
