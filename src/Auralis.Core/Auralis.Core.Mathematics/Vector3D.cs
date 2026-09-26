@@ -425,7 +425,7 @@ public struct Vector3D
     /// <summary>
     /// Creates Hermite interpolation between two positions based on the given tangents.
     /// </summary>
-    public static Vector3D Hermite(Vector3D value1, Vector3D tangent1, Vector3D value2, Vector3 tangent2, float amount)
+    public static Vector3D Hermite(Vector3D value1, Vector3D tangent1, Vector3D value2, Vector3D tangent2, float amount)
     {
         float squared = amount * amount;
         float cubed = amount * squared;
