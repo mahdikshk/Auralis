@@ -248,9 +248,9 @@ public struct Vector3D
     /// <summary>
     /// Normalizes this vector in place so that it has unit length.
     /// </summary>
-    public void Normalize()
+    public Vector3D Normalize()
     {
-        Vector3.Normalize(this);
+        return Vector3.Normalize(this);
     }
     /// <summary>
     /// Raises the exponent for each components.
@@ -314,7 +314,7 @@ public struct Vector3D
     /// </summary>
     public static Vector3D Modulate(Vector3D left, Vector3D right)
     {
-        return (Vector3)left + right;
+        return (Vector3)left * right;
     }
 
     /// <summary>

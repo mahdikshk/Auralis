@@ -47,7 +47,7 @@ public struct Plane
     public Plane(Vector3D point, Vector3D normal)
     {
         Normal = normal;
-        D = Vector3D.Dot(normal, point);
+        D = -Vector3D.Dot(normal, point);
     }
 
     /// <summary>
