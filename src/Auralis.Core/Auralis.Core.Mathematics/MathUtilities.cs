@@ -1054,6 +1054,7 @@ public static class MathUtilities
                 (v1 - v2).StoreUnsafe(ref dest);
                 currentfirst = ref Unsafe.Add(ref currentfirst, count);
                 currentsecond = ref Unsafe.Add(ref currentsecond, count);
+                dest = ref Unsafe.Add(ref dest, count);
             } while (Unsafe.IsAddressLessThan(ref currentfirst, ref end));
             for (var i = length - remaining; i < length; i++)
             {
@@ -1519,6 +1520,7 @@ public static class MathUtilities
                 (v1 / v2).StoreUnsafe(ref dest);
                 currentfirst = ref Unsafe.Add(ref currentfirst, count);
                 currentsecond = ref Unsafe.Add(ref currentsecond, count);
+                dest = ref Unsafe.Add(ref dest, count);
             } while (Unsafe.IsAddressLessThan(ref currentfirst, ref end));
             for (var i = length - remaining; i < length; i++)
             {
