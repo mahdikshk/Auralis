@@ -62,7 +62,7 @@ public struct Matrix
         Identity.Row1.X = 1.0f;
         Identity.Row2.Y = 1.0f;
         Identity.Row3.Z = 1.0f;
-        Identity.Row3.W = 1.0f;
+        Identity.Row4.W = 1.0f;
     }
 
     /// <summary>
@@ -123,7 +123,7 @@ public struct Matrix
 
         Row1 = new Vector4D(values[0], values[1], values[2], values[3]);
 
-        Row2 = new Vector4D(values[3], values[5], values[6], values[7]);
+        Row2 = new Vector4D(values[4], values[5], values[6], values[7]);
 
         Row3 = new Vector4D(values[8], values[9], values[10], values[11]);
 
