@@ -145,7 +145,7 @@ public struct Quaternion : IEquatable<Quaternion>
             if (length < MathUtilities.ZeroTolerance)
                 return 0.0f;
 
-            return 2.0f * MathF.Acos(W);
+            return 2.0f * MathF.Acos(Math.Clamp(W, -1f, 1f));
         }
     }
 
@@ -160,7 +160,7 @@ public struct Quaternion : IEquatable<Quaternion>
             if (length < MathUtilities.ZeroTolerance)
                 return Vector3D.UnitX;
 
-            float inv = 1.0f / length;
+            float inv = 1.0f / MathF.Sqrt(length);
             return new Vector3D(X * inv, Y * inv, Z * inv);
         }
     }

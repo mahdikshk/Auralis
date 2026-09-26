@@ -41,7 +41,7 @@ public struct Vector4D
     /// <summary>
     /// A static instance representing the unit vector pointing along the Y-axis (0, 1, 0, 0).
     /// </summary>
-    public static readonly Vector4 UnitY = new(0.0f, 1.0f, 0.0f, 0.0f);
+    public static readonly Vector4D UnitY = new(0.0f, 1.0f, 0.0f, 0.0f);
 
     /// <summary>
     /// The Z unit <see cref="Vector4D"/> (0, 0, 1, 0).
@@ -57,7 +57,7 @@ public struct Vector4D
     /// <summary>
     /// A static instance representing the unit vector pointing along the W-axis (0, 0, 0, 1).
     /// </summary>
-    public static readonly Vector4 UnitW = new(0.0f, 0.0f, 0.0f, 1.0f);
+    public static readonly Vector4D UnitW = new(0.0f, 0.0f, 0.0f, 1.0f);
 
     /// <summary>
     /// A <see cref="Vector4D"/> with all of its components set to one.
@@ -65,7 +65,7 @@ public struct Vector4D
     /// <summary>
     /// A static instance representing a four-dimensional vector with all components set to one.
     /// </summary>
-    public static readonly Vector4 One = new(1.0f, 1.0f, 1.0f, 1.0f);
+    public static readonly Vector4D One = new(1.0f, 1.0f, 1.0f, 1.0f);
 
     /// <summary>
     /// The X component of the vector.
@@ -243,7 +243,7 @@ public struct Vector4D
     /// <summary>
     /// Moves from the source position towards the target position by at most the specified travel distance.
     /// </summary>
-    public static Vector4D Moveto(Vector4D from, Vector4D to, float maxTravelDistance)
+    public static Vector4D MoveTo(Vector4D from, Vector4D to, float maxTravelDistance)
     {
         Vector4D distance = Vector4.Subtract(to, from);
 
