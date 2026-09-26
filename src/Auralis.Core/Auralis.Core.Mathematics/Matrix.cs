@@ -478,7 +478,7 @@ public struct Matrix
     /// </remarks>
     public void Orthogonalize()
     {
-
+        Orthogonalize(ref this);
     }
 
     /// <summary>
@@ -490,7 +490,7 @@ public struct Matrix
     /// </remarks>
     public void Orthonormalize()
     {
-
+        Orthonormalize(ref this);
     }
 
 
