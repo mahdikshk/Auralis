@@ -34,6 +34,13 @@ public static class MathUtilities
         return IsZero(a - 1.0f);
     }
 
+    /// <summary>
+    /// Performs an element-wise multiplication of integers from two source spans and stores the results in a destination span (destination[i] = first[i] * second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of integers (left operand).</param>
+    /// <param name="second">The second read-only span of integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the multiplication. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseMultiplication(ReadOnlySpan<int> first, ReadOnlySpan<int> second, Span<int> destination)
     {
@@ -108,6 +115,13 @@ public static class MathUtilities
             destination[i] = first[i] * second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise multiplication of 64-bit integers from two source spans and stores the results in a destination span (destination[i] = first[i] * second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of 64-bit integers (left operand).</param>
+    /// <param name="second">The second read-only span of 64-bit integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the multiplication. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseMultiplication(ReadOnlySpan<long> first, ReadOnlySpan<long> second, Span<long> destination)
     {
@@ -182,6 +196,13 @@ public static class MathUtilities
             destination[i] = first[i] * second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise multiplication of 16-bit integers from two source spans and stores the results in a destination span (destination[i] = first[i] * second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of 16-bit integers (left operand).</param>
+    /// <param name="second">The second read-only span of 16-bit integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the multiplication. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseMultiplication(ReadOnlySpan<short> first, ReadOnlySpan<short> second, Span<short> destination)
     {
@@ -256,6 +277,13 @@ public static class MathUtilities
             destination[i] = (short)(first[i] * second[i]);
         }
     }
+    /// <summary>
+    /// Performs an element-wise multiplication of single-precision floating-point values from two source spans and stores the results in a destination span (destination[i] = first[i] * second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of single-precision floating-point values (left operand).</param>
+    /// <param name="second">The second read-only span of single-precision floating-point values (right operand).</param>
+    /// <param name="destination">The span that receives the result of the multiplication. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseMultiplication(ReadOnlySpan<float> first, ReadOnlySpan<float> second, Span<float> destination)
     {
@@ -330,6 +358,13 @@ public static class MathUtilities
             destination[i] = first[i] * second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise multiplication of double-precision floating-point values from two source spans and stores the results in a destination span (destination[i] = first[i] * second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of double-precision floating-point values (left operand).</param>
+    /// <param name="second">The second read-only span of double-precision floating-point values (right operand).</param>
+    /// <param name="destination">The span that receives the result of the multiplication. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseMultiplication(ReadOnlySpan<double> first, ReadOnlySpan<double> second, Span<double> destination)
     {
@@ -404,6 +439,13 @@ public static class MathUtilities
             destination[i] = first[i] * second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise addition of integers from two source spans and stores the results in a destination span (destination[i] = first[i] + second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of integers (left operand).</param>
+    /// <param name="second">The second read-only span of integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the addition. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseAdd(ReadOnlySpan<int> first, ReadOnlySpan<int> second, Span<int> destination)
     {
@@ -478,6 +520,13 @@ public static class MathUtilities
             destination[i] = first[i] + second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise addition of 64-bit integers from two source spans and stores the results in a destination span (destination[i] = first[i] + second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of 64-bit integers (left operand).</param>
+    /// <param name="second">The second read-only span of 64-bit integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the addition. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseAdd(ReadOnlySpan<long> first, ReadOnlySpan<long> second, Span<long> destination)
     {
@@ -552,6 +601,13 @@ public static class MathUtilities
             destination[i] = first[i] + second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise addition of 16-bit integers from two source spans and stores the results in a destination span (destination[i] = first[i] + second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of 16-bit integers (left operand).</param>
+    /// <param name="second">The second read-only span of 16-bit integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the addition. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseAdd(ReadOnlySpan<short> first, ReadOnlySpan<short> second, Span<short> destination)
     {
@@ -626,6 +682,13 @@ public static class MathUtilities
             destination[i] = (short)(first[i] + second[i]);
         }
     }
+    /// <summary>
+    /// Performs an element-wise addition of single-precision floating-point values from two source spans and stores the results in a destination span (destination[i] = first[i] + second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of single-precision floating-point values (left operand).</param>
+    /// <param name="second">The second read-only span of single-precision floating-point values (right operand).</param>
+    /// <param name="destination">The span that receives the result of the addition. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseAdd(ReadOnlySpan<float> first, ReadOnlySpan<float> second, Span<float> destination)
     {
@@ -700,6 +763,13 @@ public static class MathUtilities
             destination[i] = first[i] + second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise addition of double-precision floating-point values from two source spans and stores the results in a destination span (destination[i] = first[i] + second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of double-precision floating-point values (left operand).</param>
+    /// <param name="second">The second read-only span of double-precision floating-point values (right operand).</param>
+    /// <param name="destination">The span that receives the result of the addition. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseAdd(ReadOnlySpan<double> first, ReadOnlySpan<double> second, Span<double> destination)
     {
@@ -774,6 +844,13 @@ public static class MathUtilities
             destination[i] = first[i] + second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise subtraction of integers from two source spans and stores the results in a destination span (destination[i] = first[i] - second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of integers (left operand).</param>
+    /// <param name="second">The second read-only span of integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the subtraction. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseSubtract(ReadOnlySpan<int> first, ReadOnlySpan<int> second, Span<int> destination)
     {
@@ -848,6 +925,13 @@ public static class MathUtilities
             destination[i] = first[i] - second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise subtraction of 64-bit integers from two source spans and stores the results in a destination span (destination[i] = first[i] - second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of 64-bit integers (left operand).</param>
+    /// <param name="second">The second read-only span of 64-bit integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the subtraction. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseSubtract(ReadOnlySpan<long> first, ReadOnlySpan<long> second, Span<long> destination)
     {
@@ -922,6 +1006,13 @@ public static class MathUtilities
             destination[i] = first[i] - second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise subtraction of 16-bit integers from two source spans and stores the results in a destination span (destination[i] = first[i] - second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of 16-bit integers (left operand).</param>
+    /// <param name="second">The second read-only span of 16-bit integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the subtraction. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseSubtract(ReadOnlySpan<short> first, ReadOnlySpan<short> second, Span<short> destination)
     {
@@ -995,6 +1086,13 @@ public static class MathUtilities
             destination[i] = (short)(first[i] - second[i]);
         }
     }
+    /// <summary>
+    /// Performs an element-wise subtraction of single-precision floating-point values from two source spans and stores the results in a destination span (destination[i] = first[i] - second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of single-precision floating-point values (left operand).</param>
+    /// <param name="second">The second read-only span of single-precision floating-point values (right operand).</param>
+    /// <param name="destination">The span that receives the result of the subtraction. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseSubtract(ReadOnlySpan<float> first, ReadOnlySpan<float> second, Span<float> destination)
     {
@@ -1069,6 +1167,13 @@ public static class MathUtilities
             destination[i] = first[i] - second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise subtraction of double-precision floating-point values from two source spans and stores the results in a destination span (destination[i] = first[i] - second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of double-precision floating-point values (left operand).</param>
+    /// <param name="second">The second read-only span of double-precision floating-point values (right operand).</param>
+    /// <param name="destination">The span that receives the result of the subtraction. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseSubtract(ReadOnlySpan<double> first, ReadOnlySpan<double> second, Span<double> destination)
     {
@@ -1143,6 +1248,13 @@ public static class MathUtilities
             destination[i] = first[i] - second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise division of integers from two source spans and stores the results in a destination span (destination[i] = first[i] / second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of integers (left operand).</param>
+    /// <param name="second">The second read-only span of integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the division. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseDivide(ReadOnlySpan<int> first, ReadOnlySpan<int> second, Span<int> destination)
     {
@@ -1217,6 +1329,13 @@ public static class MathUtilities
             destination[i] = first[i] / second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise division of 64-bit integers from two source spans and stores the results in a destination span (destination[i] = first[i] / second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of 64-bit integers (left operand).</param>
+    /// <param name="second">The second read-only span of 64-bit integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the division. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseDivide(ReadOnlySpan<long> first, ReadOnlySpan<long> second, Span<long> destination)
     {
@@ -1291,6 +1410,13 @@ public static class MathUtilities
             destination[i] = first[i] / second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise division of 16-bit integers from two source spans and stores the results in a destination span (destination[i] = first[i] / second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of 16-bit integers (left operand).</param>
+    /// <param name="second">The second read-only span of 16-bit integers (right operand).</param>
+    /// <param name="destination">The span that receives the result of the division. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseDivide(ReadOnlySpan<short> first, ReadOnlySpan<short> second, Span<short> destination)
     {
@@ -1365,6 +1491,13 @@ public static class MathUtilities
             destination[i] = (short)(first[i] / second[i]);
         }
     }
+    /// <summary>
+    /// Performs an element-wise division of single-precision floating-point values from two source spans and stores the results in a destination span (destination[i] = first[i] / second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of single-precision floating-point values (left operand).</param>
+    /// <param name="second">The second read-only span of single-precision floating-point values (right operand).</param>
+    /// <param name="destination">The span that receives the result of the division. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseDivide(ReadOnlySpan<float> first, ReadOnlySpan<float> second, Span<float> destination)
     {
@@ -1438,6 +1571,13 @@ public static class MathUtilities
             destination[i] = first[i] / second[i];
         }
     }
+    /// <summary>
+    /// Performs an element-wise division of double-precision floating-point values from two source spans and stores the results in a destination span (destination[i] = first[i] / second[i]). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="first">The first read-only span of double-precision floating-point values (left operand).</param>
+    /// <param name="second">The second read-only span of double-precision floating-point values (right operand).</param>
+    /// <param name="destination">The span that receives the result of the division. Must have the same length as <paramref name="first"/> and <paramref name="second"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when the lengths of <paramref name="first"/>, <paramref name="second"/> and <paramref name="destination"/> are not identical.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ElementWiseDivide(ReadOnlySpan<double> first, ReadOnlySpan<double> second, Span<double> destination)
     {
@@ -1512,6 +1652,13 @@ public static class MathUtilities
             destination[i] = first[i] / second[i];
         }
     }
+    /// <summary>
+    /// Applies an element-wise addition between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] + value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of integers to apply the addition to.</param>
+    /// <param name="value">The scalar int value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AddAllElementsWithValue(ReadOnlySpan<int> source, int value, Span<int> destination)
     {
@@ -1582,6 +1729,13 @@ public static class MathUtilities
             destination[i] = source[i] + value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise addition between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] + value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of 64-bit integers to apply the addition to.</param>
+    /// <param name="value">The scalar 64-bit value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AddAllElementsWithValue(ReadOnlySpan<long> source, long value, Span<long> destination)
     {
@@ -1652,6 +1806,13 @@ public static class MathUtilities
             destination[i] = source[i] + value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise addition between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] + value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of 16-bit integers to apply the addition to.</param>
+    /// <param name="value">The scalar 16-bit value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AddAllElementsWithValue(ReadOnlySpan<short> source, short value, Span<short> destination)
     {
@@ -1722,6 +1883,13 @@ public static class MathUtilities
             destination[i] = (short)(source[i] + value);
         }
     }
+    /// <summary>
+    /// Applies an element-wise addition between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] + value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of single-precision floating-point values to apply the addition to.</param>
+    /// <param name="value">The scalar single-precision value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AddAllElementsWithValue(ReadOnlySpan<float> source, float value, Span<float> destination)
     {
@@ -1792,6 +1960,13 @@ public static class MathUtilities
             destination[i] = source[i] + value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise addition between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] + value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of double-precision floating-point values to apply the addition to.</param>
+    /// <param name="value">The scalar double-precision value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AddAllElementsWithValue(ReadOnlySpan<double> source, double value, Span<double> destination)
     {
@@ -1862,6 +2037,13 @@ public static class MathUtilities
             destination[i] = source[i] + value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise subtraction between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] - value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of integers to apply the subtraction to.</param>
+    /// <param name="value">The scalar int value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void SubtractValueFromAllElements(ReadOnlySpan<int> source, int value, Span<int> destination)
     {
@@ -1932,6 +2114,13 @@ public static class MathUtilities
             destination[i] = source[i] - value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise subtraction between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] - value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of 64-bit integers to apply the subtraction to.</param>
+    /// <param name="value">The scalar 64-bit value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void SubtractValueFromAllElements(ReadOnlySpan<long> source, long value, Span<long> destination)
     {
@@ -2002,6 +2191,13 @@ public static class MathUtilities
             destination[i] = source[i] - value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise subtraction between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] - value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of 16-bit integers to apply the subtraction to.</param>
+    /// <param name="value">The scalar 16-bit value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void SubtractValueFromAllElements(ReadOnlySpan<short> source, short value, Span<short> destination)
     {
@@ -2072,6 +2268,13 @@ public static class MathUtilities
             destination[i] = (short)(source[i] - value);
         }
     }
+    /// <summary>
+    /// Applies an element-wise subtraction between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] - value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of single-precision floating-point values to apply the subtraction to.</param>
+    /// <param name="value">The scalar single-precision value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void SubtractValueFromAllElements(ReadOnlySpan<float> source, float value, Span<float> destination)
     {
@@ -2142,6 +2345,13 @@ public static class MathUtilities
             destination[i] = source[i] - value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise subtraction between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] - value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of double-precision floating-point values to apply the subtraction to.</param>
+    /// <param name="value">The scalar double-precision value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void SubtractValueFromAllElements(ReadOnlySpan<double> source, double value, Span<double> destination)
     {
@@ -2213,6 +2423,13 @@ public static class MathUtilities
             destination[i] = source[i] - value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise multiplication between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] * value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of integers to apply the multiplication to.</param>
+    /// <param name="value">The scalar int value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MultiplyElementsWithValue(ReadOnlySpan<int> source, int value, Span<int> destination)
     {
@@ -2283,6 +2500,13 @@ public static class MathUtilities
             destination[i] = source[i] * value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise multiplication between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] * value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of 64-bit integers to apply the multiplication to.</param>
+    /// <param name="value">The scalar 64-bit value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MultiplyElementsWithValue(ReadOnlySpan<long> source, long value, Span<long> destination)
     {
@@ -2353,6 +2577,13 @@ public static class MathUtilities
             destination[i] = source[i] * value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise multiplication between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] * value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of 16-bit integers to apply the multiplication to.</param>
+    /// <param name="value">The scalar 16-bit value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MultiplyElementsWithValue(ReadOnlySpan<short> source, short value, Span<short> destination)
     {
@@ -2423,6 +2654,13 @@ public static class MathUtilities
             destination[i] = (short)(source[i] * value);
         }
     }
+    /// <summary>
+    /// Applies an element-wise multiplication between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] * value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of single-precision floating-point values to apply the multiplication to.</param>
+    /// <param name="value">The scalar single-precision value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MultiplyElementsWithValue(ReadOnlySpan<float> source, float value, Span<float> destination)
     {
@@ -2494,6 +2732,13 @@ public static class MathUtilities
             destination[i] = source[i] * value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise multiplication between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] * value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of double-precision floating-point values to apply the multiplication to.</param>
+    /// <param name="value">The scalar double-precision value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void MultiplyElementsWithValue(ReadOnlySpan<double> source, double value, Span<double> destination)
     {
@@ -2565,6 +2810,13 @@ public static class MathUtilities
             destination[i] = source[i] * value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise division between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] / value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of integers to apply the division to.</param>
+    /// <param name="value">The scalar int value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void DivideElementsByValue(ReadOnlySpan<int> source,int value, Span<int> destination)
     {
@@ -2775,6 +3027,13 @@ public static class MathUtilities
     //        destination[i] = (short)(source[i] / value);
     //    }
     //}
+    /// <summary>
+    /// Applies an element-wise division between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] / value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of single-precision floating-point values to apply the division to.</param>
+    /// <param name="value">The scalar single-precision value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void DivideElementsByValue(ReadOnlySpan<float> source, float value, Span<float> destination)
     {
@@ -2845,6 +3104,13 @@ public static class MathUtilities
             destination[i] = source[i] / value;
         }
     }
+    /// <summary>
+    /// Applies an element-wise division between every element of the source span and a single scalar value, storing the results in a destination span (destination[i] = source[i] / value). The method automatically selects the widest available SIMD width (Vector512, Vector256 or Vector128) when hardware acceleration is enabled and the input is large enough, falling back to a scalar loop for the remaining elements.
+    /// </summary>
+    /// <param name="source">The read-only span of double-precision floating-point values to apply the division to.</param>
+    /// <param name="value">The scalar double-precision value used as the second operand for every element.</param>
+    /// <param name="destination">The span that receives the results. Must be at least as long as <paramref name="source"/>.</param>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="destination"/> is shorter than <paramref name="source"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void DivideElementsByValue(ReadOnlySpan<double> source, double value, Span<double> destination)
     {
@@ -2917,10 +3183,22 @@ public static class MathUtilities
         }
     }
 
+    /// <summary>
+    /// Computes the floored (Euclidean-style) modulo of a value with respect to a divisor, guaranteeing a non-negative result even when <paramref name="value"/> is negative.
+    /// </summary>
+    /// <param name="value">The value to take the modulo of.</param>
+    /// <param name="divisor">The divisor.</param>
+    /// <returns>The remainder of <paramref name="value"/> divided by <paramref name="divisor"/>, normalized to the range [0, |divisor|).</returns>
     public static float Mod(float value, float divisor)
     {
         return ((value % divisor) + divisor) % divisor;
     }
+    /// <summary>
+    /// Determines whether the specified byte sequence contains the given byte value. Uses SIMD-accelerated searches (Vector512/Vector256/Vector128) when available and falls back to a scalar loop otherwise.
+    /// </summary>
+    /// <param name="haystack">The read-only span of bytes to search.</param>
+    /// <param name="needle">The byte value to look for.</param>
+    /// <returns><c>true</c> if <paramref name="needle"/> occurs at least once in <paramref name="haystack"/>; otherwise, <c>false</c>.</returns>
     private static bool Contains(ReadOnlySpan<byte> haystack, byte needle)
     {
         if (Vector128.IsHardwareAccelerated && haystack.Length >= Vector128<byte>.Count)
@@ -2985,10 +3263,20 @@ public static class MathUtilities
 
         return false;
     }
+    /// <summary>
+    /// Throws an <see cref="ArgumentException"/> indicating that the supplied spans do not all have the same length. Used as a no-inline guard clause helper.
+    /// </summary>
+    /// <param name="caller">The name of the calling member, supplied automatically via <see cref="CallerMemberNameAttribute"/>.</param>
+    /// <exception cref="ArgumentException">Always thrown, with a message describing the length mismatch and the calling member as the parameter name.</exception>
     private static void ThrowIfLengthsAreNotTheSame([CallerMemberName] string caller = "")
     {
         throw new ArgumentException("The lengths of spans should be the same", caller);
     }
+    /// <summary>
+    /// Throws an <see cref="ArgumentException"/> indicating that the destination span is shorter than the source span. Used as a no-inline guard clause helper.
+    /// </summary>
+    /// <param name="caller">The name of the calling member, supplied automatically via <see cref="CallerMemberNameAttribute"/>.</param>
+    /// <exception cref="ArgumentException">Always thrown, with a message describing the size requirement and the calling member as the parameter name.</exception>
     private static void ThrowIfDestinationIsSmallerThanSource([CallerMemberName] string caller = "")
     {
         throw new ArgumentException("The length of the source should be smaller than destination", caller);
