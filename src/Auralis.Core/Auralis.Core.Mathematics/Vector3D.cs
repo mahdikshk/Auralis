@@ -328,9 +328,9 @@ public struct Vector3D
     /// <summary>
     /// Divides the components of the first vector by the components of the second vector (component-wise division).
     /// </summary>
-    public static Vector3D Demodulate(Vector3D right, Vector3D left)
+    public static Vector3D Demodulate(Vector3D left, Vector3D right)
     {
-        return (Vector3)right / left;
+        return (Vector3)left / right;
     }
 
     /// <summary>
