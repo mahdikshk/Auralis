@@ -6,48 +6,87 @@ using System.Text;
 
 namespace Auralis.Core.Mathematics;
 
+/// <summary>
+/// Represents a four-dimensional vector using single-precision floating-point values.
+/// </summary>
 public struct Vector4D
 {
     /// <summary>
     /// The size of the <see cref="Vector4"/> type, in bytes.
+    /// </summary>
+    /// <summary>
+    /// The size of the <see cref="T:Auralis.Core.Mathematics.Vector4D"/> type in bytes.
     /// </summary>
     public static readonly int SizeInBytes = Unsafe.SizeOf<Vector4D>();
 
     /// <summary>
     /// A <see cref="Vector4D"/> with all of its components set to zero.
     /// </summary>
+    /// <summary>
+    /// A static instance of the <see cref="T:Auralis.Core.Mathematics.Vector4D"/> structure with all components set to zero.
+    /// </summary>
     public static readonly Vector4D Zero = new();
 
     /// <summary>
     /// The X unit <see cref="Vector4D"/> (1, 0, 0, 0).
+    /// </summary>
+    /// <summary>
+    /// A static instance of the <see cref="T:Auralis.Core.Mathematics.Vector4D"/> structure representing the unit vector pointing along the X-axis (1, 0, 0, 0).
     /// </summary>
     public static readonly Vector4D UnitX = new(1.0f, 0.0f, 0.0f, 0.0f);
 
     /// <summary>
     /// The Y unit <see cref="Vector4D"/> (0, 1, 0, 0).
     /// </summary>
+    /// <summary>
+    /// A static instance representing the unit vector pointing along the Y-axis (0, 1, 0, 0).
+    /// </summary>
     public static readonly Vector4 UnitY = new(0.0f, 1.0f, 0.0f, 0.0f);
 
     /// <summary>
     /// The Z unit <see cref="Vector4D"/> (0, 0, 1, 0).
+    /// </summary>
+    /// <summary>
+    /// A static instance of the <see cref="T:Auralis.Core.Mathematics.Vector4D"/> structure representing the unit vector pointing along the Z-axis (0, 0, 1, 0).
     /// </summary>
     public static readonly Vector4D UnitZ = new(0.0f, 0.0f, 1.0f, 0.0f);
 
     /// <summary>
     /// The W unit <see cref="Vector4D"/> (0, 0, 0, 1).
     /// </summary>
+    /// <summary>
+    /// A static instance representing the unit vector pointing along the W-axis (0, 0, 0, 1).
+    /// </summary>
     public static readonly Vector4 UnitW = new(0.0f, 0.0f, 0.0f, 1.0f);
 
     /// <summary>
     /// A <see cref="Vector4D"/> with all of its components set to one.
     /// </summary>
+    /// <summary>
+    /// A static instance representing a four-dimensional vector with all components set to one.
+    /// </summary>
     public static readonly Vector4 One = new(1.0f, 1.0f, 1.0f, 1.0f);
 
+    /// <summary>
+    /// The X component of the vector.
+    /// </summary>
     public float X;
+    /// <summary>
+    /// The Y component of the vector.
+    /// </summary>
     public float Y;
+    /// <summary>
+    /// The Z component of the vector.
+    /// </summary>
     public float Z;
+    /// <summary>
+    /// The W component of the vector.
+    /// </summary>
     public float W;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Vector4D"/> structure whose components are all set to the same value.
+    /// </summary>
     public Vector4D(float value)
     {
         X = value;
@@ -56,6 +95,9 @@ public struct Vector4D
         W = value;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Vector4D"/> structure with the specified components.
+    /// </summary>
     public Vector4D(float x, float y, float z, float w)
     {
         X = x;
@@ -63,6 +105,9 @@ public struct Vector4D
         Z = z;
         W = w;
     }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Vector4D"/> structure from a three-dimensional vector plus a W component.
+    /// </summary>
     public Vector4D(Vector3 value, float w)
     {
         X = value.X;
@@ -70,6 +115,9 @@ public struct Vector4D
         Z = value.Z;
         W = w;
     }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Vector4D"/> structure from a two-dimensional vector plus Z and W components.
+    /// </summary>
     public Vector4D(Vector2 value, float z, float w)
     {
         X = value.X;
@@ -77,6 +125,9 @@ public struct Vector4D
         Z = z;
         W = w;
     }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Vector4D"/> structure from a read-only span of four values.
+    /// </summary>
     public Vector4D(ReadOnlySpan<float> values)
     {
         if (values.Length != 4)
@@ -87,18 +138,30 @@ public struct Vector4D
         Z = values[2];
         W = values[3];
     }
+    /// <summary>
+    /// Scales a vector by the specified scalar value.
+    /// </summary>
     public static Vector4D operator *(float scale, Vector4D value)
     {
         return new Vector4D(value.X * scale, value.Y * scale, value.Z * scale, value.W * scale);
     }
+    /// <summary>
+    /// Subtracts the second vector from the first.
+    /// </summary>
     public static Vector4D operator-(Vector4D left,Vector4D right)
     {
         return new Vector4D((left.X - right.X) , (left.Y - right.Y) , (left.Z - right.Z) ,(left.W - right.W));
     }
+    /// <summary>
+    /// Gets a value indicating whether this vector has unit length.
+    /// </summary>
     public readonly bool IsNormalized
     {
         get { return MathF.Abs((X * X) + (Y * Y) + (Z * Z) + (W * W) - 1f) < MathUtilities.ZeroTolerance; }
     }
+    /// <summary>
+    /// Gets or sets the component at the specified index. Indices for a four-dimensional vector run from 0 to 3, mapping to X, Y, Z and W respectively.
+    /// </summary>
     public float this[int index]
     {
         readonly get
@@ -126,17 +189,26 @@ public struct Vector4D
         }
     }
 
+    /// <summary>
+    /// Returns the Euclidean length of this vector.
+    /// </summary>
     public readonly float Length()
     {
         //return MathF.Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
         return ((Vector4)this).Length();
     }
 
+    /// <summary>
+    /// Returns the squared Euclidean length of this vector.
+    /// </summary>
     public readonly float LengthSquared()
     {
         //return (X * X) + (Y * Y) + (Z * Z) + (W * W);
         return ((Vector4)this).LengthSquared();
     }
+    /// <summary>
+    /// Normalizes this vector in place so that it has unit length.
+    /// </summary>
     public void Normalize()
     {
         float length = Length();
@@ -150,6 +222,9 @@ public struct Vector4D
         }
     }
 
+    /// <summary>
+    /// Raises each component of this vector to the specified power.
+    /// </summary>
     public void Pow(float exponent)
     {
         X = MathF.Pow(X, exponent);
@@ -157,11 +232,17 @@ public struct Vector4D
         Z = MathF.Pow(Z, exponent);
         W = MathF.Pow(W, exponent);
     }
+    /// <summary>
+    /// Returns the vector components (X, Y, Z, W) as a new array.
+    /// </summary>
     public readonly float[] ToArray()
     {
         return [X, Y, Z, W];
     }
 
+    /// <summary>
+    /// Moves from the source position towards the target position by at most the specified travel distance.
+    /// </summary>
     public static Vector4D Moveto(Vector4D from, Vector4D to, float maxTravelDistance)
     {
         Vector4D distance = Vector4.Subtract(to, from);
@@ -178,37 +259,61 @@ public struct Vector4D
             return new Vector4D(from.X + (distance.X * v), from.Y + (distance.Y * v), from.Z + (distance.Z * v), from.W + (distance.W * v));
         }
     }
+    /// <summary>
+    /// Adds two vectors together.
+    /// </summary>
     public static Vector4D Add(Vector4D left, Vector4D right)
     {
         return Vector4.Add(left, right);
     }
+    /// <summary>
+    /// Subtracts the second vector from the first.
+    /// </summary>
     public static Vector4D Subtract(Vector4D left, Vector4D right)
     {
         return Vector4.Subtract(left, right);
     }
+    /// <summary>
+    /// Scales a vector by the specified scalar value.
+    /// </summary>
     public static Vector4D Multiply(Vector4D value, float scale)
     {
         return Vector4.Multiply(value, scale);
     }
 
+    /// <summary>
+    /// Multiplies the components of two vectors together (component-wise multiplication).
+    /// </summary>
     public static Vector4D Modulate(Vector4D left, Vector4D right)
     {
         return Vector4.Multiply(left, right);
     }
 
+    /// <summary>
+    /// Divides a vector by the specified scalar value.
+    /// </summary>
     public static Vector4D Divide(Vector4D value, float scale)
     {
         return Vector4.Divide(value, scale);
     }
 
+    /// <summary>
+    /// Divides the components of the first vector by the components of the second vector (component-wise division).
+    /// </summary>
     public static Vector4D Demodulate(Vector4D left, Vector4D right)
     {
         return Vector4.Divide(left, right);
     }
+    /// <summary>
+    /// Negates the specified vector.
+    /// </summary>
     public static Vector4D Negate(Vector4D value)
     {
         return Vector4.Negate(value);
     }
+    /// <summary>
+    /// Returns a point on a bezier spline defined by the first four points.
+    /// </summary>
     public static Vector4D Barycentric(Vector4D value1, Vector4D value2, Vector4D value3, float amount1, float amount2)
     {
         return new Vector4D(
@@ -217,35 +322,56 @@ public struct Vector4D
             value1.Z + (amount1 * (value2.Z - value1.Z)) + (amount2 * (value3.Z - value1.Z)),
             value1.W + (amount1 * (value2.W - value1.W)) + (amount2 * (value3.W - value1.W)));
     }
+    /// <summary>
+    /// Restricts a vector between a minimum and a maximum value, component-wise.
+    /// </summary>
     public static Vector4D Clamp(Vector4D value, Vector4D min, Vector4D max)
     {
         return Vector4.Clamp(value, min, max);
     }
+    /// <summary>
+    /// Returns the Euclidean distance between two vectors.
+    /// </summary>
     public static float Distance(Vector4D value1, Vector4D value2)
     {
         return Vector4.Distance(value1, value2);
     }
 
+    /// <summary>
+    /// Returns the squared Euclidean distance between two vectors.
+    /// </summary>
     public static float DistanceSquared(Vector4 value1, Vector4 value2)
     {
         return Vector4.DistanceSquared(value1, value2);
     }
 
+    /// <summary>
+    /// Returns the dot product of two vectors.
+    /// </summary>
     public static float Dot(Vector4D left, Vector4D right)
     {
         return Vector4.Dot(left, right);
     }
 
+    /// <summary>
+    /// Returns a normalized version of the specified vector.
+    /// </summary>
     public static Vector4D Normalize(Vector4D value)
     {
         return Vector4.Normalize(value);
     }
 
+    /// <summary>
+    /// Performs a linear interpolation between two vectors.
+    /// </summary>
     public static Vector4D Lerp(Vector4D start, Vector4D end, float amount)
     {
         return Vector4.Lerp(start, end, amount);
     }
 
+    /// <summary>
+    /// Interpolates between two vectors using a cubic equation.
+    /// </summary>
     public static Vector4D SmoothStep(Vector4D start, Vector4D end, float amount)
     {
         amount = (amount > 1.0f) ? 1.0f : ((amount < 0.0f) ? 0.0f : amount);
@@ -257,6 +383,9 @@ public struct Vector4D
         result.W = start.W + ((end.W - start.W) * amount);
         return result;
     }
+    /// <summary>
+    /// Creates Hermite interpolation between two positions based on the given tangents.
+    /// </summary>
     public static Vector4D Hermite(Vector4D value1, Vector4D tangent1, Vector4D value2, Vector4D tangent2, float amount)
     {
         float squared = amount * amount;
@@ -273,6 +402,9 @@ public struct Vector4D
             (value1.W * part1) + (value2.W * part2) + (tangent1.W * part3) + (tangent2.W * part4));
     }
 
+    /// <summary>
+    /// Performs a Catmull-Rom interpolation.
+    /// </summary>
     public static Vector4D CatmullRom(Vector4D value1, Vector4D value2, Vector4D value3, Vector4D value4, float amount)
     {
         float squared = amount * amount;
@@ -285,15 +417,24 @@ public struct Vector4D
         result.W = 0.5f * ((2.0f * value2.W) + ((-value1.W + value3.W) * amount) + (((((2.0f * value1.W) - (5.0f * value2.W)) + (4.0f * value3.W)) - value4.W) * squared) + ((((-value1.W + (3.0f * value2.W)) - (3.0f * value3.W)) + value4.W) * cubed));
         return result;
     }
+    /// <summary>
+    /// Returns a vector whose components are the largest of the corresponding components of the given vectors.
+    /// </summary>
     public static Vector4D Max(Vector4D left, Vector4D right)
     {
         return Vector4.Max(left, right);
     }
+    /// <summary>
+    /// Returns a vector whose components are the smallest of the corresponding components of the given vectors.
+    /// </summary>
     public static Vector4D Min(Vector4D left,Vector4D right)
     {
         return Vector4.Min(left, right);
     }
 
+    /// <summary>
+    /// Orthogonalizes the source vectors using the Gram-Schmidt process, writing the results to the destination span.
+    /// </summary>
     public static void Orthogonalize(Span<Vector4D> destination, params ReadOnlySpan<Vector4D> source)
     {
         if (destination.Length < source.Length)
@@ -312,6 +453,9 @@ public struct Vector4D
         }
     }
 
+    /// <summary>
+    /// Orthonormalizes the source vectors using the Gram-Schmidt process, writing the results to the destination span.
+    /// </summary>
     public static void Orthonormalize(Span<Vector4D> destination, params ReadOnlySpan<Vector4D> source)
     {
         //Uses the modified Gram-Schmidt process.
@@ -339,11 +483,17 @@ public struct Vector4D
             destination[i] = newvector;
         }
     }
+    /// <summary>
+    /// Transforms a vector by the specified rotation quaternion.
+    /// </summary>
     public static Vector4D Transform(Vector4D vector, Quaternion rotation)
     {
        return Vector4.Transform(vector, rotation);
     }
 
+    /// <summary>
+    /// Transforms a span of vectors by the specified rotation quaternion into a destination span.
+    /// </summary>
     public static void Transform(ReadOnlySpan<Vector4D> source, Quaternion rotation, Span<Vector4D> destination)
     {
         if (destination.Length < source.Length)
@@ -354,6 +504,9 @@ public struct Vector4D
         }
     }
 
+    /// <summary>
+    /// Transforms a span of vectors by the specified matrix into a destination span.
+    /// </summary>
     public static void Transform(ReadOnlySpan<Vector4D> source, Matrix transform, Span<Vector4D> destination)
     {
         if (destination.Length < source.Length)
@@ -366,10 +519,16 @@ public struct Vector4D
     }
 
 
+    /// <summary>
+    /// Transforms a vector by the specified matrix.
+    /// </summary>
     public static Vector4D Transform(Vector4D vector, Matrix transform)
     {
         return Vector4.Transform(vector, transform);
     }
+    /// <summary>
+    /// Defines an implicit conversion of a <see cref="T:Auralis.Core.Mathematics.Vector4D"/> into a <see cref="T:System.Numerics.Vector4"/>.
+    /// </summary>
     public static implicit operator Vector4(Vector4D value)
     {
         return new Vector4
@@ -380,6 +539,9 @@ public struct Vector4D
             W = value.W
         };
     }
+    /// <summary>
+    /// Defines an implicit conversion of a <see cref="T:System.Numerics.Vector4"/> into a <see cref="T:Auralis.Core.Mathematics.Vector4D"/>.
+    /// </summary>
     public static implicit operator Vector4D(Vector4 value)
     {
         return new Vector4D

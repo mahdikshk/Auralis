@@ -7,25 +7,55 @@ using System.Text;
 
 namespace Auralis.Core.Mathematics;
 
+/// <summary>
+/// Represents a rotation in three-dimensional space using a four-component quaternion (X, Y, Z, W).
+/// </summary>
 public struct Quaternion : IEquatable<Quaternion>
 {
+    /// <summary>
+    /// The size of the <see cref="T:Auralis.Core.Mathematics.Quaternion"/> type in bytes.
+    /// </summary>
     public static readonly int SizeInBytes = Unsafe.SizeOf<Quaternion>();
 
+    /// <summary>
+    /// A static instance of the <see cref="T:Auralis.Core.Mathematics.Quaternion"/> structure with all components set to zero.
+    /// </summary>
     public static readonly Quaternion Zero = new();
 
+    /// <summary>
+    /// A static instance of the <see cref="T:Auralis.Core.Mathematics.Quaternion"/> structure with all components set to one.
+    /// </summary>
     public static readonly Quaternion One = new(1.0f, 1.0f, 1.0f, 1.0f);
 
+    /// <summary>
+    /// A static instance of the <see cref="T:Auralis.Core.Mathematics.Quaternion"/> structure representing the identity rotation (0, 0, 0, 1).
+    /// </summary>
     public static readonly Quaternion Identity = new(0.0f, 0.0f, 0.0f, 1.0f);
 
 
 
+    /// <summary>
+    /// The X component of the quaternion.
+    /// </summary>
     public float X;
 
+    /// <summary>
+    /// The Y component of the quaternion.
+    /// </summary>
     public float Y;
 
+    /// <summary>
+    /// The Z component of the quaternion.
+    /// </summary>
     public float Z;
 
+    /// <summary>
+    /// The W (scalar) component of the quaternion.
+    /// </summary>
     public float W;
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Quaternion"/> structure whose components are all set to the same value.
+    /// </summary>
     public Quaternion(float value)
     {
         X = value;
@@ -34,6 +64,9 @@ public struct Quaternion : IEquatable<Quaternion>
         W = value;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Quaternion"/> structure from a vector and a scalar component.
+    /// </summary>
     public Quaternion(Vector3D value, float w)
     {
         X = value.X;
@@ -42,6 +75,9 @@ public struct Quaternion : IEquatable<Quaternion>
         W = w;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Quaternion"/> structure from a two-dimensional vector plus Z and W components.
+    /// </summary>
     public Quaternion(Vector2D value, float z, float w)
     {
         X = value.X;
@@ -50,6 +86,9 @@ public struct Quaternion : IEquatable<Quaternion>
         W = w;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Quaternion"/> structure with the specified components.
+    /// </summary>
     public Quaternion(float x, float y, float z, float w)
     {
         X = x;
@@ -57,6 +96,9 @@ public struct Quaternion : IEquatable<Quaternion>
         Z = z;
         W = w;
     }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Quaternion"/> structure from a read-only span of four values.
+    /// </summary>
     public Quaternion(ReadOnlySpan<float> values)
     {
         if (values.Length != 4)
@@ -68,21 +110,33 @@ public struct Quaternion : IEquatable<Quaternion>
         W = values[3];
     }
 
+    /// <summary>
+    /// Multiplies two quaternions together, combining their rotations.
+    /// </summary>
     public static Quaternion operator *(in Quaternion left, in Quaternion right)
     {
         return (System.Numerics.Quaternion)left * (System.Numerics.Quaternion)right;
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this quaternion is the identity rotation.
+    /// </summary>
     public bool IsIdentity
     {
         get { return this.Equals(Identity); }
     }
 
+    /// <summary>
+    /// Gets a value indicating whether this quaternion has unit length.
+    /// </summary>
     public bool IsNormalized
     {
         get { return MathF.Abs((X * X) + (Y * Y) + (Z * Z) + (W * W) - 1f) < MathUtilities.ZeroTolerance; }
     }
 
+    /// <summary>
+    /// Gets the rotation angle of this quaternion in radians.
+    /// </summary>
     public float Angle
     {
         get
@@ -95,6 +149,9 @@ public struct Quaternion : IEquatable<Quaternion>
         }
     }
 
+    /// <summary>
+    /// Gets the rotation axis of this quaternion as a three-dimensional vector.
+    /// </summary>
     public Vector3D Axis
     {
         get
@@ -108,6 +165,9 @@ public struct Quaternion : IEquatable<Quaternion>
         }
     }
 
+    /// <summary>
+    /// Gets the yaw, pitch and roll angles represented by this quaternion as a three-dimensional vector.
+    /// </summary>
     public Vector3D YawPitchRoll
     {
         get
@@ -118,6 +178,9 @@ public struct Quaternion : IEquatable<Quaternion>
         }
     }
 
+    /// <summary>
+    /// Gets or sets the component at the specified index. Indices for a quaternion run from 0 to 3, mapping to X, Y, Z and W respectively.
+    /// </summary>
     public float this[int index]
     {
         get
@@ -146,16 +209,25 @@ public struct Quaternion : IEquatable<Quaternion>
         }
     }
 
+    /// <summary>
+    /// Conjugates this quaternion in place, negating its vector part.
+    /// </summary>
     public void Conjugate()
     {
         X = -X;
         Y = -Y;
         Z = -Z;
     }
+    /// <summary>
+    /// Returns the conjugate of the specified quaternion.
+    /// </summary>
     public static Quaternion Conjugate(Quaternion value)
     {
         return System.Numerics.Quaternion.Conjugate(value);
     }
+    /// <summary>
+    /// Inverts this quaternion in place.
+    /// </summary>
     public void Invert()
     {
         float lengthSq = LengthSquared();
@@ -170,16 +242,25 @@ public struct Quaternion : IEquatable<Quaternion>
         }
     }
 
+    /// <summary>
+    /// Returns the Euclidean length of this quaternion.
+    /// </summary>
     public readonly float Length()
     {
         return MathF.Sqrt((X * X) + (Y * Y) + (Z * Z) + (W * W));
     }
 
+    /// <summary>
+    /// Returns the squared Euclidean length of this quaternion.
+    /// </summary>
     public readonly float LengthSquared()
     {
         return (X * X) + (Y * Y) + (Z * Z) + (W * W);
     }
 
+    /// <summary>
+    /// Normalizes this quaternion in place so that it has unit length.
+    /// </summary>
     public void Normalize()
     {
         float length = Length();
@@ -193,11 +274,17 @@ public struct Quaternion : IEquatable<Quaternion>
         }
     }
 
+    /// <summary>
+    /// Returns the quaternion components (X, Y, Z, W) as a new array.
+    /// </summary>
     public float[] ToArray()
     {
         return [X, Y, Z, W];
     }
 
+    /// <summary>
+    /// Adds two quaternions component-wise.
+    /// </summary>
     public static Quaternion Add(Quaternion left, Quaternion right)
     {
         Quaternion result;
@@ -208,6 +295,9 @@ public struct Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    /// <summary>
+    /// Subtracts the second quaternion from the first, component-wise.
+    /// </summary>
     public static Quaternion Subtract(Quaternion left, Quaternion right)
     {
         Quaternion result;
@@ -218,6 +308,9 @@ public struct Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    /// <summary>
+    /// Scales a quaternion by the specified scalar value.
+    /// </summary>
     public static Quaternion Multiply(Quaternion value, float scale)
     {
         Quaternion result;
@@ -228,6 +321,9 @@ public struct Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    /// <summary>
+    /// Multiplies two quaternions together.
+    /// </summary>
     public static Quaternion Multiply(Quaternion left, Quaternion right)
     {
         float lx = left.X;
@@ -246,11 +342,17 @@ public struct Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    /// <summary>
+    /// Negates the specified quaternion.
+    /// </summary>
     public static Quaternion Negate(Quaternion value)
     {
         return System.Numerics.Quaternion.Negate(value);
     }
 
+    /// <summary>
+    /// Returns a point on a bezier spline defined by the first four points.
+    /// </summary>
     public static Quaternion Barycentric(Quaternion value1, Quaternion value2, Quaternion value3, float amount1, float amount2)
     {
         Quaternion result;
@@ -260,17 +362,26 @@ public struct Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    /// <summary>
+    /// Returns the dot product of two quaternions.
+    /// </summary>
     public static float Dot(Quaternion left, Quaternion right)
     {
         float result = System.Numerics.Quaternion.Dot(left, right);
         return result;
     }
 
+    /// <summary>
+    /// Returns the angle between two quaternions in radians.
+    /// </summary>
     public static float AngleBetween(Quaternion a, Quaternion b)
     {
         return MathF.Acos(MathF.Min(MathF.Abs(Dot(a, b)), 1f)) * 2f;
     }
 
+    /// <summary>
+    /// Computes the natural exponential of the specified quaternion.
+    /// </summary>
     public static Quaternion Exponential(Quaternion value)
     {
         Quaternion result;
@@ -293,16 +404,25 @@ public struct Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    /// <summary>
+    /// Returns the inverted quaternion of the specified quaternion.
+    /// </summary>
     public static Quaternion Invert(Quaternion value)
     {
         value.Invert();
         return value;
     }
 
+    /// <summary>
+    /// Performs a linear interpolation between two quaternions along the shortest arc.
+    /// </summary>
     public static Quaternion Lerp(Quaternion start, Quaternion end, float amount)
     {
         return System.Numerics.Quaternion.Lerp(start, end, amount);
     }
+    /// <summary>
+    /// Builds a rotation quaternion that looks in the given forward direction with the given up vector.
+    /// </summary>
     public static Quaternion LookRotation(Vector3D forward, Vector3D up)
     {
         var right = Vector3D.Normalize(Vector3D.Cross(up, forward));
@@ -315,6 +435,9 @@ public struct Quaternion : IEquatable<Quaternion>
         };
         return RotationMatrix(m);
     }
+    /// <summary>
+    /// Rotates the specified vector by this quaternion.
+    /// </summary>
     public readonly void Rotate(ref Vector3D vector)
     {
         var pureQuaternion = new Quaternion(vector, 0);
@@ -324,6 +447,9 @@ public struct Quaternion : IEquatable<Quaternion>
         vector.Y = pureQuaternion.Y;
         vector.Z = pureQuaternion.Z;
     }
+    /// <summary>
+    /// Computes the natural logarithm of the specified quaternion.
+    /// </summary>
     public static Quaternion Logarithm(Quaternion value)
     {
         Quaternion result;
@@ -352,10 +478,16 @@ public struct Quaternion : IEquatable<Quaternion>
         result.W = 0.0f;
         return result;
     }
+    /// <summary>
+    /// Normalizes the specified quaternion so that it has unit length.
+    /// </summary>
     public static Quaternion Normalize(Quaternion value)
     {
         return System.Numerics.Quaternion.Normalize(value);
     }
+    /// <summary>
+    /// Defines an implicit conversion of an <see cref="T:Auralis.Core.Mathematics.Quaternion"/> into a <see cref="T:System.Numerics.Quaternion"/>.
+    /// </summary>
     public static implicit operator System.Numerics.Quaternion(Auralis.Core.Mathematics.Quaternion quaternion)
     {
         return new System.Numerics.Quaternion
@@ -366,6 +498,9 @@ public struct Quaternion : IEquatable<Quaternion>
             W = quaternion.W
         };
     }
+    /// <summary>
+    /// Defines an implicit conversion of a <see cref="T:System.Numerics.Quaternion"/> into an <see cref="T:Auralis.Core.Mathematics.Quaternion"/>.
+    /// </summary>
     public static implicit operator Auralis.Core.Mathematics.Quaternion(System.Numerics.Quaternion quaternion)
     {
         return new Quaternion
@@ -381,6 +516,9 @@ public struct Quaternion : IEquatable<Quaternion>
 
 
 
+    /// <summary>
+    /// Constructs a quaternion that rotates around the specified axis by the given angle.
+    /// </summary>
     public static Quaternion RotationAxis(Vector3D axis, float angle)
     {
         var normalized = Vector3D.Normalize(axis);
@@ -397,11 +535,17 @@ public struct Quaternion : IEquatable<Quaternion>
     }
 
 
+    /// <summary>
+    /// Creates a quaternion from the rotational component of the specified matrix.
+    /// </summary>
     public static Quaternion RotationMatrix(Matrix matrix)
     {
         return System.Numerics.Quaternion.CreateFromRotationMatrix(matrix);
     }
 
+    /// <summary>
+    /// Creates a quaternion that rotates around the X-axis by the given angle.
+    /// </summary>
     public static Quaternion RotationX(float angle)
     {
         Quaternion result;
@@ -410,6 +554,9 @@ public struct Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    /// <summary>
+    /// Creates a quaternion that rotates around the Y-axis by the given angle.
+    /// </summary>
     public static Quaternion RotationY(float angle)
     {
         Quaternion result;
@@ -418,6 +565,9 @@ public struct Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    /// <summary>
+    /// Creates a quaternion that rotates around the Z-axis by the given angle.
+    /// </summary>
     public static Quaternion RotationZ(float angle)
     {
         Quaternion result;
@@ -426,11 +576,17 @@ public struct Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    /// <summary>
+    /// Creates a quaternion from the specified yaw, pitch and roll angles.
+    /// </summary>
     public static Quaternion RotationYawPitchRoll(float yaw, float pitch, float roll)
     {
         return System.Numerics.Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
     }
 
+    /// <summary>
+    /// Extracts the yaw, pitch and roll angles from the specified rotation quaternion.
+    /// </summary>
     public static void RotationYawPitchRoll(ref readonly Quaternion rotation, out float yaw, out float pitch, out float roll)
     {
         var xx = rotation.X * rotation.X;
@@ -479,6 +635,9 @@ public struct Quaternion : IEquatable<Quaternion>
             roll = MathF.Atan2(M12, M22);
         }
     }
+    /// <summary>
+    /// Computes the shortest rotation quaternion from a source direction to a target direction.
+    /// </summary>
     public static Quaternion BetweenDirections(Vector3D source, Vector3D target)
     {
         Quaternion result;
@@ -502,16 +661,25 @@ public struct Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    /// <summary>
+    /// Interpolates between two quaternions along the shortest arc at a constant angular rate.
+    /// </summary>
     public static Quaternion Slerp(Quaternion start, Quaternion end, float amount)
     {
         return System.Numerics.Quaternion.Slerp(start, end, amount);
     }
 
+    /// <summary>
+    /// Rotates the current quaternion towards the target quaternion by at most the specified angle.
+    /// </summary>
     public static Quaternion RotateTowards(Quaternion current, Quaternion target, float angle)
     {
         var maxAngle = AngleBetween(current, target);
         return maxAngle == 0f ? target : Slerp(current, target, MathF.Min(1f, angle / maxAngle));
     }
+    /// <summary>
+    /// Performs spherical cubic interpolation of quaternions.
+    /// </summary>
     public static Quaternion Squad(Quaternion value1, Quaternion value2, Quaternion value3, Quaternion value4, float amount)
     {
         var start = Slerp(value1, value4, amount);
@@ -520,12 +688,18 @@ public struct Quaternion : IEquatable<Quaternion>
         return result;
     }
 
+    /// <summary>
+    /// Sets up control points for spherical quadrangle interpolation.
+    /// </summary>
     public static Quaternion[] SquadSetup(in Quaternion value1, in Quaternion value2, in Quaternion value3, in Quaternion value4)
     {
         var results = new Quaternion[3];
         SquadSetup(in value1, in value2, in value3, in value4, results);
         return results;
     }
+    /// <summary>
+    /// Sets up control points for spherical quadrangle interpolation, writing them to the supplied span.
+    /// </summary>
     public static void SquadSetup(in Quaternion value1, in Quaternion value2, in Quaternion value3,
         in Quaternion value4, Span<Quaternion> destination)
     {
@@ -547,35 +721,56 @@ public struct Quaternion : IEquatable<Quaternion>
         destination[2] = q2;
     }
 
+    /// <summary>
+    /// Adds two quaternions component-wise.
+    /// </summary>
     public static Quaternion operator +(Quaternion left, Quaternion right)
     {
         return Add(left, right);
     }
 
+    /// <summary>
+    /// Subtracts the second quaternion from the first, component-wise.
+    /// </summary>
     public static Quaternion operator -(Quaternion left, Quaternion right)
     {
         return Subtract(left, right);
     }
 
+    /// <summary>
+    /// Multiplies two quaternions together.
+    /// </summary>
     public static Quaternion operator *(Quaternion left, Quaternion right)
     {
         return Multiply(left, right);
     }
 
+    /// <summary>
+    /// Scales a quaternion by the specified scalar value.
+    /// </summary>
     public static Quaternion operator *(float scale, Quaternion value)
     {
         return Multiply(value, scale);
     }
 
+    /// <summary>
+    /// Negates the specified quaternion.
+    /// </summary>
     public static Quaternion operator -(in Quaternion value)
     {
         return Negate(value);
     }
 
+    /// <summary>
+    /// Divides a quaternion by another quaternion.
+    /// </summary>
     public static Quaternion operator /(Quaternion left, Quaternion right)
     {
         return System.Numerics.Quaternion.Divide(left, right);
     }
+    /// <summary>
+    /// Indicates whether the current quaternion is equal to another quaternion.
+    /// </summary>
     public bool Equals(Quaternion other)
     {
         return (MathF.Abs(other.X - X) < MathUtilities.ZeroTolerance &&

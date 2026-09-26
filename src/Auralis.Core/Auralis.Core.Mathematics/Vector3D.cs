@@ -8,41 +8,68 @@ using System.Text;
 
 namespace Auralis.Core.Mathematics;
 
+/// <summary>
+/// Represents a three-dimensional vector using single-precision floating-point values.
+/// </summary>
 [StructLayout(LayoutKind.Sequential, Pack = 8)]
 public struct Vector3D
 {
     /// <summary>
     /// The size of the <see cref="Auralis.Core.Mathematics.Vector3D"/> struct in bytes
     /// </summary>
+    /// <summary>
+    /// The size of the <see cref="T:Auralis.Core.Mathematics.Vector3D"/> type in bytes.
+    /// </summary>
     public static readonly int SizeInBytes = Unsafe.SizeOf<Vector3>();
 
     /// <summary>
     /// A <see cref="Auralis.Core.Mathematics.Vector3D"/> instance with all the values instanciated to 0
     /// </summary>
+    /// <summary>
+    /// A static instance of the <see cref="T:Auralis.Core.Mathematics.Vector3D"/> structure with all components set to zero.
+    /// </summary>
     public static readonly Vector3D Zero = new();
     /// <summary>
     /// A <see cref="Auralis.Core.Mathematics.Vector3D"/> instance with all the values being set to 1
+    /// </summary>
+    /// <summary>
+    /// A static instance of the <see cref="T:Auralis.Core.Mathematics.Vector3D"/> structure with all components set to one.
     /// </summary>
     public static readonly Vector3D One = new(1f, 1f, 1f);
     /// <summary>
     /// A <see cref="Auralis.Core.Mathematics.Vector3D"/> instance with the X value being set to 1
     /// </summary>
+    /// <summary>
+    /// A static instance of the <see cref="T:Auralis.Core.Mathematics.Vector3D"/> structure representing the unit vector pointing along the X-axis (1, 0, 0).
+    /// </summary>
     public static readonly Vector3D UnitX = new(1f, 0, 0);
     /// <summary>
     /// A <see cref="Auralis.Core.Mathematics.Vector3D"/> instance with the Y value being set to 1
+    /// </summary>
+    /// <summary>
+    /// A static instance of the <see cref="T:Auralis.Core.Mathematics.Vector3D"/> structure representing the unit vector pointing along the Y-axis (0, 1, 0).
     /// </summary>
     public static readonly Vector3D UnitY = new(0, 1f, 0);
     /// <summary>
     /// A <see cref="Auralis.Core.Mathematics.Vector3D"/> instance with the Z value being set to 1
     /// </summary>
+    /// <summary>
+    /// A static instance of the <see cref="T:Auralis.Core.Mathematics.Vector3D"/> structure representing the unit vector pointing along the Z-axis (0, 0, 1).
+    /// </summary>
     public static readonly Vector3D UnitZ = new(0, 0, 1f);
 
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Vector3D"/> structure.
+    /// </summary>
     public Vector3D()
     {
 
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Vector3D"/> structure with the specified components.
+    /// </summary>
     public Vector3D(float x, float y, float z)
     {
         X = x;
@@ -50,17 +77,26 @@ public struct Vector3D
         Z = z;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Vector3D"/> structure whose components are all set to the same value.
+    /// </summary>
     public Vector3D(float value)
     {
         X = Y = Z = value;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Vector3D"/> structure from a two-dimensional vector plus a Z component.
+    /// </summary>
     public Vector3D(Vector2D value, float z)
     {
         X = value.X;
         Y = value.Y;
         Z = z;
     }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:Auralis.Core.Mathematics.Vector3D"/> structure from a read-only span of three values.
+    /// </summary>
     public Vector3D(ReadOnlySpan<float> values)
     {
         if (values.Length != 3)
@@ -71,32 +107,56 @@ public struct Vector3D
         Y = values[1];
         Z = values[2];
     }
+    /// <summary>
+    /// The X component of the vector.
+    /// </summary>
     public float X;
 
+    /// <summary>
+    /// The Y component of the vector.
+    /// </summary>
     public float Y;
 
+    /// <summary>
+    /// The Z component of the vector.
+    /// </summary>
     public float Z;
+    /// <summary>
+    /// Scales a vector by the specified scalar value.
+    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3D operator *(in Vector3D value, float scale)
     {
         return new Vector3D(value.X * scale, value.Y * scale, value.Z * scale);
     }
+    /// <summary>
+    /// Scales a vector by the specified scalar value.
+    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3D operator *(float scale, in Vector3D value)
     {
         return new Vector3D(value.X * scale, value.Y * scale, value.Z * scale);
     }
+    /// <summary>
+    /// Subtracts the second vector from the first.
+    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3D operator -(in Vector3D left, in Vector3D right)
     {
         return new Vector3D(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
     }
 
+    /// <summary>
+    /// Negates the specified vector.
+    /// </summary>
     public static Vector3D operator -(in Vector3D value)
     {
         return Vector3D.Negate(value);
     }
 
+    /// <summary>
+    /// Adds two vectors together.
+    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Vector3D operator +(in Vector3D left, in Vector3D right)
     {
@@ -109,6 +169,9 @@ public struct Vector3D
     }
     /// <summary>
     /// Gets a value indicating whether this instance is normalized.
+    /// </summary>
+    /// <summary>
+    /// Gets a value indicating whether this vector has unit length.
     /// </summary>
     public readonly bool IsNormalized
     {
@@ -123,6 +186,9 @@ public struct Vector3D
     /// <value>The value of the X, Y, or Z component, depending on the index.</value>
     /// <param name="index">The index of the component to access. Use 0 for the X component, 1 for the Y component, and 2 for the Z component.</param>
     /// <returns>The value of the component at the specified index.</returns>
+    /// <summary>
+    /// Gets or sets the component at the specified index. Indices for a three-dimensional vector run from 0 to 2, mapping to X, Y and Z respectively.
+    /// </summary>
     public float this[int index]
     {
         get
@@ -148,24 +214,39 @@ public struct Vector3D
             }
         }
     }
+    /// <summary>
+    /// Defines an implicit conversion of a <see cref="T:System.Numerics.Vector3"/> into a <see cref="T:Auralis.Core.Mathematics.Vector3D"/>.
+    /// </summary>
     public static implicit operator Vector3D(Vector3 value)
     {
         return Unsafe.As<Vector3, Vector3D>(ref value);
     }
+    /// <summary>
+    /// Defines an implicit conversion of a <see cref="T:Auralis.Core.Mathematics.Vector3D"/> into a <see cref="T:System.Numerics.Vector3"/>.
+    /// </summary>
     public static implicit operator Vector3(Vector3D value)
     {
         return Unsafe.As<Vector3D, Vector3>(ref value);
     }
+    /// <summary>
+    /// Returns the Euclidean length of this vector.
+    /// </summary>
     public readonly float Length()
     {
         return MathF.Sqrt((X * X) + (Y * Y) + (Z * Z));
     }
+    /// <summary>
+    /// Returns the squared Euclidean length of this vector.
+    /// </summary>
     public readonly float LengthSquared()
     {
         return (X * X) + (Y * Y) + (Z * Z);
     }
     /// <summary>
     /// Converts the vector into a unit vector.
+    /// </summary>
+    /// <summary>
+    /// Normalizes this vector in place so that it has unit length.
     /// </summary>
     public void Normalize()
     {
@@ -174,17 +255,26 @@ public struct Vector3D
     /// <summary>
     /// Raises the exponent for each components.
     /// </summary>
+    /// <summary>
+    /// Raises each component of this vector to the specified power.
+    /// </summary>
     public void Pow(float exponent)
     {
         X = MathF.Pow(X, exponent);
         Y = MathF.Pow(Y, exponent);
         Z = MathF.Pow(Z, exponent);
     }
+    /// <summary>
+    /// Returns the vector components (X, Y, Z) as a new array.
+    /// </summary>
     public readonly float[] ToArray()
     {
         return [X, Y, Z];
     }
 
+    /// <summary>
+    /// Moves from the source position towards the target position by at most the specified travel distance.
+    /// </summary>
     public Vector3D MoveTo(Vector3D from, Vector3D to, float maximumTravelDistance)
     {
         var distance = Subtract(to, from);
@@ -195,41 +285,65 @@ public struct Vector3D
 
     }
 
+    /// <summary>
+    /// Subtracts the second vector from the first.
+    /// </summary>
     public static Vector3D Subtract(Vector3D left, Vector3D right)
     {
         return (Vector3)left - right;
     }
 
+    /// <summary>
+    /// Adds two vectors together.
+    /// </summary>
     public static Vector3D Add(Vector3D left, Vector3D right)
     {
         return (Vector3)left + right;
     }
 
+    /// <summary>
+    /// Scales a vector by the specified scalar value.
+    /// </summary>
     public static Vector3D Multiply(Vector3D value, float scale)
     {
         return (Vector3)value * scale;
     }
 
+    /// <summary>
+    /// Multiplies the components of two vectors together (component-wise multiplication).
+    /// </summary>
     public static Vector3D Modulate(Vector3D left, Vector3D right)
     {
         return (Vector3)left + right;
     }
 
+    /// <summary>
+    /// Divides a vector by the specified scalar value.
+    /// </summary>
     public static Vector3D Divide(Vector3D value, float scale)
     {
         return (Vector3)value / scale;
     }
 
+    /// <summary>
+    /// Divides the components of the first vector by the components of the second vector (component-wise division).
+    /// </summary>
     public static Vector3D Demodulate(Vector3D right, Vector3D left)
     {
         return (Vector3)right / left;
     }
 
+    /// <summary>
+    /// Negates the specified vector.
+    /// </summary>
     public static Vector3D Negate(Vector3D value)
     {
         return Multiply(value, -1);
     }
 
+    /// <summary>
+    /// Returns a point on a bezier spline defined by the first four points.
+    /// </summary>
     public static Vector3D Barycentric(Vector3 value1, Vector3 value2, Vector3 value3, float amount1, float amount2)
     {
         return new Vector3(
@@ -238,39 +352,63 @@ public struct Vector3D
             (value1.Z + (amount1 * (value2.Z - value1.Z))) + (amount2 * (value3.Z - value1.Z)));
     }
 
+    /// <summary>
+    /// Restricts a vector between a minimum and a maximum value, component-wise.
+    /// </summary>
     public static Vector3D Clamp(Vector3D value, Vector3D min, Vector3D max)
     {
         return Vector3.Clamp(value, min, max);
     }
 
+    /// <summary>
+    /// Returns the cross product of two vectors.
+    /// </summary>
     public static Vector3D Cross(Vector3D left, Vector3D right)
     {
         return Vector3.Cross(left, right);
     }
 
+    /// <summary>
+    /// Returns the Euclidean distance between two vectors.
+    /// </summary>
     public static float Distance(Vector3D left, Vector3D right)
     {
         return Vector3.Distance(left, right);
     }
+    /// <summary>
+    /// Returns the squared Euclidean distance between two vectors.
+    /// </summary>
     public static float DistanceSquared(Vector3D left, Vector3D right)
     {
         return Vector3.DistanceSquared(left, right);
     }
 
+    /// <summary>
+    /// Returns the dot product of two vectors.
+    /// </summary>
     public static float Dot(Vector3D left, Vector3D right)
     {
         return Vector3.Dot(left, right);
     }
 
+    /// <summary>
+    /// Returns a normalized version of the specified vector.
+    /// </summary>
     public static Vector3D Normalize(Vector3D value)
     {
         return Vector3.Normalize(value);
     }
 
+    /// <summary>
+    /// Performs a linear interpolation between two vectors.
+    /// </summary>
     public static Vector3D Lerp(Vector3D start, Vector3D end, float amount)
     {
         return Vector3.Lerp(start, end, amount);
     }
+    /// <summary>
+    /// Interpolates between two vectors using a cubic equation.
+    /// </summary>
     public static Vector3D SmoothStep(Vector3D start, Vector3D end, float amount)
     {
         amount = (amount > 1.0f) ? 1.0f : ((amount < 0.0f) ? 0.0f : amount);
@@ -284,6 +422,9 @@ public struct Vector3D
         return result;
     }
 
+    /// <summary>
+    /// Creates Hermite interpolation between two positions based on the given tangents.
+    /// </summary>
     public static Vector3D Hermite(Vector3D value1, Vector3D tangent1, Vector3D value2, Vector3 tangent2, float amount)
     {
         float squared = amount * amount;
@@ -300,6 +441,9 @@ public struct Vector3D
             Z = (((value1.Z * part1) + (value2.Z * part2)) + (tangent1.Z * part3)) + (tangent2.Z * part4)
         };
     }
+    /// <summary>
+    /// Performs a Catmull-Rom interpolation.
+    /// </summary>
     public static Vector3D CatmullRom(Vector3D value1, Vector3D value2, Vector3D value3, Vector3D value4, float amount)
     {
         float squared = amount * amount;
@@ -319,6 +463,9 @@ public struct Vector3D
         };
     }
 
+    /// <summary>
+    /// Returns a vector whose components are the remainder after dividing the components of the first vector by the corresponding components of the second vector.
+    /// </summary>
     public static Vector3D Mod(Vector3D left, Vector3D right)
     {
         return new Vector3D
@@ -329,6 +476,9 @@ public struct Vector3D
         };
     }
 
+    /// <summary>
+    /// Returns a vector whose components are the smallest of the corresponding components of the given vectors.
+    /// </summary>
     public static Vector3D Min(Vector3D left, Vector3D right)
     {
         return new Vector3D
@@ -339,6 +489,9 @@ public struct Vector3D
         };
     }
 
+    /// <summary>
+    /// Returns a vector whose components are the largest of the corresponding components of the given vectors.
+    /// </summary>
     public static Vector3D Max(Vector3D left, Vector3D right)
     {
         return new Vector3D
@@ -349,12 +502,18 @@ public struct Vector3D
         };
     }
 
+    /// <summary>
+    /// Projects a vector from world space into screen space using the given viewport and world-view-projection matrix.
+    /// </summary>
     public static Vector3D Project(Vector3 vector, float x, float y, float width, float height, float minZ, float maxZ, Matrix worldViewProjection)
     {
         Vector3D trasformed = Vector3.Transform(vector, worldViewProjection);
         return new Vector3(((1.0f + trasformed.X) * 0.5f * width) + x, ((1.0f - trasformed.Y) * 0.5f * height) + y, (trasformed.Z * (maxZ - minZ)) + minZ);
     }
 
+    /// <summary>
+    /// Unprojects a vector from screen space back into world space using the given viewport and inverse world-view-projection matrix.
+    /// </summary>
     public static Vector3D Unproject(ref readonly Vector3D vector,
         float x,
         float y,
@@ -374,10 +533,16 @@ public struct Vector3D
         var result = TransformCoordinate(in v, in resultMatrix);
         return result;
     }
+    /// <summary>
+    /// Returns the reflection of a vector off a surface specified by its normal.
+    /// </summary>
     public static Vector3D Reflect(Vector3D vector, Vector3D normal)
     {
         return Vector3.Reflect(vector, normal);
     }
+    /// <summary>
+    /// Orthogonalizes the source vectors using the Gram-Schmidt process, writing the results to the destination span.
+    /// </summary>
     public static void Orthogonalize(ReadOnlySpan<Vector3D> source, Span<Vector3D> destination)
     {
         if (destination.Length < source.Length)
@@ -393,6 +558,9 @@ public struct Vector3D
             destination[i] = newvector;
         }
     }
+    /// <summary>
+    /// Orthonormalizes the source vectors using the Gram-Schmidt process, writing the results to the destination span.
+    /// </summary>
     public static void Orthonormalize(ReadOnlySpan<Vector3D> source, Span<Vector3D> destination)
     {
         if (destination.Length < source.Length)
@@ -411,6 +579,9 @@ public struct Vector3D
         }
     }
 
+    /// <summary>
+    /// Transforms a span of vectors by the specified rotation quaternion into a destination span.
+    /// </summary>
     public static void Transform(ReadOnlySpan<Vector3D> source, Quaternion rotation, Span<Vector3D> destination)
     {
         if (destination.Length < source.Length)
@@ -422,6 +593,9 @@ public struct Vector3D
             destination[i] = Vector3.Transform(newVector, quaternion);
         }
     }
+    /// <summary>
+    /// Transforms a vector by the specified matrix, producing a four-dimensional vector.
+    /// </summary>
     public static Vector4D Transform(ref readonly Vector3D vector, ref readonly Matrix transform)
     {
         return Vector4.Transform(vector, transform);
@@ -434,6 +608,9 @@ public struct Vector3D
     //        (vector.X * transform.M13) + (vector.Y * transform.M23) + (vector.Z * transform.M33) + transform.M43);
     //}
 
+    /// <summary>
+    /// Transforms a span of vectors by the specified matrix into a destination span of four-dimensional vectors.
+    /// </summary>
     public static void Transform(ReadOnlySpan<Vector3D> source, ref readonly Matrix transform, Span<Vector4D> destination)
     {
         if (destination.Length < source.Length)
@@ -444,10 +621,16 @@ public struct Vector3D
             destination[i] = Transform(in source[i], in transform);
         }
     }
+    /// <summary>
+    /// Transforms a texture coordinate by the specified matrix.
+    /// </summary>
     public static Vector3D TransformCoordinate(ref readonly Vector3D coordinate, ref readonly Matrix transform)
     {
         return Vector3.Transform(coordinate, transform);
     }
+    /// <summary>
+    /// Transforms a span of normal vectors by the specified matrix into a destination span.
+    /// </summary>
     public static void TransformNormal(ReadOnlySpan<Vector3D> source, ref readonly Matrix transform, Span<Vector3D> destination)
     {
         if (destination.Length < source.Length)
@@ -458,6 +641,9 @@ public struct Vector3D
             destination[i] = Vector3.TransformNormal(source[i], matrix);
         }
     }
+    /// <summary>
+    /// Extracts the forward direction vector represented by the specified rotation quaternion.
+    /// </summary>
     public static Vector3D RotationYawPitchRoll(Quaternion quaternion)
     {
         Vector3D yawPitchRoll;
@@ -465,6 +651,9 @@ public struct Vector3D
         return yawPitchRoll;
     }
 
+    /// <summary>
+    /// Rotates the source vector around the axis passing through the target point by the specified angle.
+    /// </summary>
     public static Vector3D RotateAround(Vector3D source, Vector3D target, Vector3D axis, float angle)
     {
         Vector3D local = source - target;
