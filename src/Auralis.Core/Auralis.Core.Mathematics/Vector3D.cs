@@ -507,8 +507,8 @@ public struct Vector3D
     /// </summary>
     public static Vector3D Project(Vector3 vector, float x, float y, float width, float height, float minZ, float maxZ, Matrix worldViewProjection)
     {
-        Vector3D trasformed = Vector3.Transform(vector, worldViewProjection);
-        return new Vector3(((1.0f + trasformed.X) * 0.5f * width) + x, ((1.0f - trasformed.Y) * 0.5f * height) + y, (trasformed.Z * (maxZ - minZ)) + minZ);
+        Vector3D transformed = Vector3.Transform(vector, worldViewProjection);
+        return new Vector3(((1.0f + transformed.X) * 0.5f * width) + x, ((1.0f - transformed.Y) * 0.5f * height) + y, (transformed.Z * (maxZ - minZ)) + minZ);
     }
 
     /// <summary>
