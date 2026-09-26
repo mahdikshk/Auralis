@@ -340,7 +340,7 @@ public struct Vector4D
     /// <summary>
     /// Returns the squared Euclidean distance between two vectors.
     /// </summary>
-    public static float DistanceSquared(Vector4 value1, Vector4 value2)
+    public static float DistanceSquared(Vector4D value1, Vector4D value2)
     {
         return Vector4.DistanceSquared(value1, value2);
     }
