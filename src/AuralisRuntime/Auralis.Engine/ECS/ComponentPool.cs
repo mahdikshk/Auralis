@@ -9,7 +9,7 @@ internal sealed class ComponentPool<T> : IComponentPool where T : notnull
 
     public int Count => _components.Count;
     public bool Contains(EntityId entity) => _components.ContainsKey(entity);
-    public void Remove(EntityId entity) => _components.Remove(entity);
+    public bool Remove(EntityId entity) => _components.Remove(entity);
 
     public void Add(EntityId entity, T component)
     {
