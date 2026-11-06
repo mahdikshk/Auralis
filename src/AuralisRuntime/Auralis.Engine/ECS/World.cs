@@ -99,10 +99,10 @@ public sealed class World
     public bool RemoveComponent<T>(EntityId entity) where T : notnull
     {
         EnsureAlive(entity);
-        return _pools.TryGetValue(typeof(T), out var pool) && pool.RemoveAndReport(entity);
+        return _pools.TryGetValue(typeof(T), out var pool) && pool.Remove(entity);
     }
 
-    /// <summary>Enumerates live entities containing every requested component.</summary>
+    /// <summary>Enumerates live entities containing the requested component.</summary>
     public IEnumerable<EntityId> Query<T1>() where T1 : notnull
     {
         for (var i = 0; i < _slots.Count; i++)
@@ -117,6 +117,7 @@ public sealed class World
         }
     }
 
+    /// <summary>Enumerates live entities containing both requested components.</summary>
     public IEnumerable<(EntityId Entity, T1 First, T2 Second)> Query<T1, T2>()
         where T1 : notnull where T2 : notnull
     {
