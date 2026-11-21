@@ -5,7 +5,9 @@ public enum GraphicsBackend
 {
     Direct3D12,
     Vulkan,
-    Metal
+    Metal,
+    OpenGL,
+    OpenGLES
 }
 
 /// <summary>Broad hardware class reported by a graphics adapter.</summary>
@@ -70,7 +72,13 @@ public enum GraphicsFeature : ulong
     WideLines = 1UL << 19,
     DepthClamp = 1UL << 20,
     FillModeNonSolid = 1UL << 21,
-    TaskShaders = 1UL << 22
+    TaskShaders = 1UL << 22,
+    IndependentBlend = 1UL << 23,
+    DepthBiasClamp = 1UL << 24,
+    SpirVShaders = 1UL << 25,
+    BaseVertexDrawing = 1UL << 26,
+    BaseInstanceDrawing = 1UL << 27,
+    TextureViews = 1UL << 28
 }
 
 /// <summary>A strongly typed set of optional graphics features reported by a device.</summary>
@@ -93,10 +101,10 @@ public enum GraphicsQueueType
 }
 
 /// <summary>
- /// Coarse device-level queue capabilities. Present indicates that the device may expose presentation
- /// queues, but it never proves compatibility with a particular native surface. Use
- /// IGraphicsPresentationSurface.SupportsPresentation for the exact queue/surface pair.
- /// </summary>
+/// Coarse device-level queue capabilities. Present indicates that the device may expose presentation
+/// queues, but it never proves compatibility with a particular native surface. Use
+/// IGraphicsPresentationSurface.SupportsPresentation for the exact queue/surface pair.
+/// </summary>
 [Flags]
 public enum GraphicsQueueCapabilities
 {

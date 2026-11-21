@@ -443,6 +443,11 @@ public interface IGraphicsFence : IGraphicsDeviceObject
 {
     ulong CompletedValue { get; }
 
+    /// <summary>
+    /// Signals a completed timeline value from the CPU. The value must be strictly greater than
+    /// the previous signal and must not overtake an earlier pending GPU signal. Use this only when
+    /// the CPU knows the value is complete; it cannot supersede unfinished GPU work.
+    /// </summary>
     void Signal(ulong value);
 
     bool Wait(ulong value, TimeSpan timeout, CancellationToken cancellationToken = default);

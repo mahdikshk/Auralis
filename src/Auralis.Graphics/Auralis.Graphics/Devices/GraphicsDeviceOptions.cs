@@ -44,7 +44,11 @@ public sealed record GraphicsDeviceOptions
             GraphicsFeature.TimelineSynchronization | GraphicsFeature.SparseResources |
             GraphicsFeature.MultiViewport | GraphicsFeature.DepthBoundsTest |
             GraphicsFeature.LogicOperations | GraphicsFeature.WideLines |
-            GraphicsFeature.DepthClamp | GraphicsFeature.FillModeNonSolid;
+            GraphicsFeature.DepthClamp | GraphicsFeature.FillModeNonSolid |
+            GraphicsFeature.TaskShaders | GraphicsFeature.IndependentBlend |
+            GraphicsFeature.DepthBiasClamp | GraphicsFeature.SpirVShaders |
+            GraphicsFeature.BaseVertexDrawing | GraphicsFeature.BaseInstanceDrawing |
+            GraphicsFeature.TextureViews;
 
         const GraphicsQueueCapabilities allQueues =
             GraphicsQueueCapabilities.Graphics | GraphicsQueueCapabilities.Compute |

@@ -30,4 +30,11 @@
   <Folder Name="/Tests/">
     <Project Path="Tests/Auralis.Graphics.Tests/Auralis.Graphics.Tests.csproj" Id="4bbcd83c-a959-4014-9bb0-47d28ffb5a20" />
   </Folder>
+  <Folder Name="/Tests/Auralis.Graphics.OpenGL/" />
+  <Folder Name="/Tests/Auralis.Graphics.OpenGLES/" />
+  <Project Path="Tests/Auralis.Graphics.OpenGL.TestSupport/Auralis.Graphics.OpenGL.TestSupport.csproj" Id="2c3e2f12-07bf-4a46-a31d-d07f2b3d4f6a" />
+  <Project Path="Tests/Auralis.Graphics.OpenGL.IntegrationTests/Auralis.Graphics.OpenGL.IntegrationTests.csproj" Id="b3d3d10e-7282-48ac-bb0a-50c7f89aab4d" />
+  <Project Path="Tests/Auralis.Graphics.OpenGLES.IntegrationTests/Auralis.Graphics.OpenGLES.IntegrationTests.csproj" Id="7f10e9b0-667e-4834-b2e6-1c452c5aacc1" />
+  <Folder Name="/Benchmarks/" />
+  <Project Path="Benchmarks/Auralis.Graphics.OpenGL.Benchmarks/Auralis.Graphics.OpenGL.Benchmarks.csproj" Id="f8f0412c-dff3-4f11-b97a-f44ccf46b31a" />
 </Solution>

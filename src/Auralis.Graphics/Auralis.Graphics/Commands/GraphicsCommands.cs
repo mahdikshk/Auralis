@@ -82,6 +82,13 @@ public sealed class GraphicsCommandListLifecycle
     public void MarkCompleted() =>
         Transition(GraphicsCommandListState.Pending, GraphicsCommandListState.Executable);
 
+    /// <summary>Attempts the Pending-to-Executable transition without failing if another owner won it.</summary>
+    internal bool TryMarkCompleted() =>
+        Interlocked.CompareExchange(
+            ref _state,
+            (int)GraphicsCommandListState.Executable,
+            (int)GraphicsCommandListState.Pending) == (int)GraphicsCommandListState.Pending;
+
     public void Reset()
     {
         if (Usage == GraphicsCommandListUsage.OneTimeSubmit && Volatile.Read(ref _hasBeenSubmitted) != 0)
@@ -199,6 +206,31 @@ public interface IGraphicsCommandList : IGraphicsDeviceObject
 
     void MemoryBarrier(ReadOnlySpan<GraphicsResourceBarrier> barriers);
 
+    /// <summary>
+    /// Selects the color and optional depth/stencil attachments for subsequent draw and clear commands.
+    /// The backend retains references to these views until the recording is reset or completed.
+    /// An empty color span is valid when a depth/stencil-only target is supplied.
+    /// </summary>
+    void SetRenderTargets(
+        ReadOnlySpan<IGraphicsTextureView> colorTargets,
+        IGraphicsTextureView? depthStencilTarget = null);
+
+    void SetViewport(in GraphicsViewport viewport);
+
+    void SetScissor(in GraphicsScissorRect scissor);
+
+    void ClearColor(uint attachmentIndex, in GraphicsClearColor color);
+
+    void ClearColorUInt(uint attachmentIndex, in GraphicsClearColorUInt color);
+
+    void ClearColorSInt(uint attachmentIndex, in GraphicsClearColorSInt color);
+
+    void ClearDepthStencil(
+        float depth,
+        uint stencil,
+        bool clearDepth = true,
+        bool clearStencil = false);
+
     void SetRenderPipeline(IGraphicsRenderPipeline pipeline);
 
     void SetComputePipeline(IGraphicsComputePipeline pipeline);
@@ -222,6 +254,15 @@ public interface IGraphicsCommandList : IGraphicsDeviceObject
 
     void DrawIndexedIndirect(IGraphicsBuffer arguments, ulong offset, uint drawCount = 1, uint stride = 0);
 
+    /// <summary>Records a mesh-shader work-group dispatch. Requires a mesh pipeline.</summary>
+    void DrawMeshTasks(uint groupCountX, uint groupCountY = 1, uint groupCountZ = 1);
+
+    /// <summary>Records one or more mesh-task commands from a GPU indirect-argument buffer.</summary>
+    void DrawMeshTasksIndirect(IGraphicsBuffer arguments, ulong offset, uint drawCount = 1, uint stride = 0);
+
+    /// <summary>
+    /// Records a compute dispatch. If any group count is zero, the operation is a valid no-op and no GPU dispatch is recorded.
+    /// </summary>
     void Dispatch(uint groupCountX, uint groupCountY = 1, uint groupCountZ = 1);
 
     void DispatchIndirect(IGraphicsBuffer arguments, ulong offset);

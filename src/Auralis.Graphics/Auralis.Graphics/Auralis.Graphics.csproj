@@ -4,20 +4,32 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\" />
-    <Folder Include="Backends\Direct3D12\" />
-    <Folder Include="Backends\Metal\" />
-    <Folder Include="Backends\OpenGL\" />
-    <Folder Include="Backends\Vulkan\" />
-    <Folder Include="Devices\" />
-    <Folder Include="Commands\" />
-    <Folder Include="Presentation\" />
-    <Folder Include="Synchronization\" />
-    <Folder Include="Pipelines\" />
-    <Folder Include="Resources\" />
+    <Folder Include="Abstractions\\" />
+    <Folder Include="Backends\Direct3D12\\" />
+    <Folder Include="Backends\Metal\\" />
+    <Folder Include="Backends\OpenGL\\" />
+    <Folder Include="Backends\OpenGLES\\" />
+    <Folder Include="Backends\Vulkan\\" />
+    <Folder Include="Devices\\" />
+    <Folder Include="Commands\\" />
+    <Folder Include="Presentation\\" />
+    <Folder Include="Synchronization\\" />
+    <Folder Include="Pipelines\\" />
+    <Folder Include="Resources\\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Silk.NET.OpenGL" Version="2.23.0" />
+    <PackageReference Include="Silk.NET.OpenGLES" Version="2.23.0" />
+    <PackageReference Include="Silk.NET.OpenGL.Extensions.ARB" Version="2.23.0" />
+    <PackageReference Include="Silk.NET.OpenGL.Legacy.Extensions.EXT" Version="2.23.0" />
+    <PackageReference Include="Silk.NET.OpenGL.Extensions.EXT" Version="2.23.0" />
+    <PackageReference Include="Silk.NET.OpenGL.Extensions.NV" Version="2.23.0" />
+    <PackageReference Include="Silk.NET.OpenGLES.Extensions.EXT" Version="2.23.0" />
   </ItemGroup>
 
 </Project>

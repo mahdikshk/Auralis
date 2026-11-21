@@ -11,6 +11,112 @@ namespace Auralis.Graphics.Tests;
 
 public sealed class GraphicsReviewRegressionTests
 {
+
+    [Fact]
+    public void RenderTargetValidationChecksOwnershipExtentSamplesUsageAndFormats()
+    {
+        var colorCapabilities = new GraphicsFormatCapabilities(
+            GraphicsFormat.RGBA8UNorm,
+            GraphicsFormatSupport.ColorAttachment,
+            GraphicsSampleCountFlags.One | GraphicsSampleCountFlags.Four);
+        var depthCapabilities = new GraphicsFormatCapabilities(
+            GraphicsFormat.D32Float,
+            GraphicsFormatSupport.DepthStencilAttachment,
+            GraphicsSampleCountFlags.One | GraphicsSampleCountFlags.Four);
+        var device = CreateDevice(GraphicsFeature.None, colorCapabilities, depthCapabilities);
+
+        var colorTexture = new TestTexture(device, new GraphicsTextureDescription(
+            GraphicsTextureDimension.Texture2D,
+            GraphicsFormat.RGBA8UNorm,
+            128, 64, 1, 1, 1, 1,
+            GraphicsTextureUsage.ColorAttachment));
+        var depthTexture = new TestTexture(device, new GraphicsTextureDescription(
+            GraphicsTextureDimension.Texture2D,
+            GraphicsFormat.D32Float,
+            128, 64, 1, 1, 1, 1,
+            GraphicsTextureUsage.DepthStencilAttachment));
+
+        var colorView = new TestTextureView(colorTexture, new GraphicsTextureViewDescription(
+            GraphicsFormat.Unknown, GraphicsTextureViewType.Texture2D, 0, 1, 0, 1));
+        var depthView = new TestTextureView(depthTexture, new GraphicsTextureViewDescription(
+            GraphicsFormat.Unknown, GraphicsTextureViewType.Texture2D, 0, 1, 0, 1));
+
+        Assert.Equal(
+            new GraphicsRenderTargetExtent(128, 64, 1),
+            GraphicsRenderTargetValidation.Validate(device, [colorView], depthView));
+
+        var mismatchedExtent = new TestTexture(device, colorTexture.Description with { Width = 64 });
+        var mismatchedView = new TestTextureView(mismatchedExtent, colorView.Description);
+        Assert.Throws<GraphicsValidationException>(() =>
+            GraphicsRenderTargetValidation.Validate(device, [colorView, mismatchedView]));
+
+        var foreignDevice = CreateDevice(GraphicsFeature.None, colorCapabilities, depthCapabilities);
+        var foreignTexture = new TestTexture(foreignDevice, colorTexture.Description);
+        var foreignView = new TestTextureView(foreignTexture, colorView.Description);
+        Assert.Throws<ArgumentException>(() =>
+            GraphicsRenderTargetValidation.Validate(device, [foreignView]));
+
+        var sampledOnly = new TestTexture(device,
+            colorTexture.Description with { Usage = GraphicsTextureUsage.Sampled });
+        var sampledOnlyView = new TestTextureView(sampledOnly, colorView.Description);
+        Assert.Throws<GraphicsValidationException>(() =>
+            GraphicsRenderTargetValidation.Validate(device, [sampledOnlyView]));
+    }
+
+    [Fact]
+    public void RenderTargetValidationComparesEffectiveMipExtentsRatherThanParentExtents()
+    {
+        var colorCapabilities = new GraphicsFormatCapabilities(
+            GraphicsFormat.RGBA8UNorm,
+            GraphicsFormatSupport.ColorAttachment,
+            GraphicsSampleCountFlags.One);
+        var device = CreateDevice(GraphicsFeature.None, colorCapabilities);
+
+        var mipmappedTexture = new TestTexture(device, new GraphicsTextureDescription(
+            GraphicsTextureDimension.Texture2D,
+            GraphicsFormat.RGBA8UNorm,
+            256, 128, 1, 2, 1, 1,
+            GraphicsTextureUsage.ColorAttachment));
+        var matchingBaseTexture = new TestTexture(device, new GraphicsTextureDescription(
+            GraphicsTextureDimension.Texture2D,
+            GraphicsFormat.RGBA8UNorm,
+            128, 64, 1, 1, 1, 1,
+            GraphicsTextureUsage.ColorAttachment));
+
+        var mipView = new TestTextureView(mipmappedTexture, new GraphicsTextureViewDescription(
+            GraphicsFormat.Unknown, GraphicsTextureViewType.Texture2D, 1, 1, 0, 1));
+        var baseView = new TestTextureView(matchingBaseTexture, new GraphicsTextureViewDescription(
+            GraphicsFormat.Unknown, GraphicsTextureViewType.Texture2D, 0, 1, 0, 1));
+
+        Assert.Equal(
+            new GraphicsRenderTargetExtent(128, 64, 1),
+            GraphicsRenderTargetValidation.Validate(device, [mipView, baseView]));
+
+        var mismatchedBaseTexture = new TestTexture(device, matchingBaseTexture.Description with { Width = 64 });
+        var mismatchedBaseView = new TestTextureView(mismatchedBaseTexture, baseView.Description);
+        Assert.Throws<GraphicsValidationException>(() =>
+            GraphicsRenderTargetValidation.Validate(device, [mipView, mismatchedBaseView]));
+    }
+
+    [Fact]
+    public void RenderTargetAndDynamicStateDescriptionsRejectInvalidValues()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new GraphicsViewport(0, 0, -1, 100).Validate());
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new GraphicsViewport(0, 0, 100, 100, 0.8f, 0.2f).Validate());
+        Assert.Throws<ArgumentException>(() =>
+            new GraphicsViewport(float.NaN, 0, 100, 100).Validate());
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            new GraphicsScissorRect(0, 0, uint.MaxValue, 1).Validate());
+        Assert.Throws<ArgumentException>(() =>
+            new GraphicsClearColor(0, 0, float.PositiveInfinity, 1).Validate());
+
+        new GraphicsViewport(0, 0, 1280, 720).Validate();
+        new GraphicsScissorRect(-2, 0, 0, 32).Validate();
+        new GraphicsClearColor(0, 0, 0, 1).Validate();
+    }
+
     [Fact]
     public void VariableCountBindingMustHaveHighestBindingNumberRegardlessOfInputOrder()
     {
@@ -510,6 +616,103 @@ public sealed class GraphicsReviewRegressionTests
         Assert.Throws<ArgumentException>(() => incompatibleView.Validate(mutable));
     }
 
+    [Fact]
+    public void CpuFenceSignalsCannotOvertakePendingGpuSignals()
+    {
+        GraphicsCommandValidation.ValidateCpuFenceSignalDoesNotOvertakeGpu(4, 5);
+        GraphicsCommandValidation.ValidateCpuFenceSignalDoesNotOvertakeGpu(5, 5);
+        Assert.Throws<GraphicsValidationException>(() =>
+            GraphicsCommandValidation.ValidateCpuFenceSignalDoesNotOvertakeGpu(10, 5));
+        GraphicsCommandValidation.ValidateCpuFenceSignalDoesNotOvertakeGpu(10, null);
+    }
+
+    [Fact]
+    public void IndexedIndirectRequiresZeroIndexBufferOffset()
+    {
+        GraphicsCommandValidation.ValidateIndexedIndirectIndexBufferOffset(0);
+        Assert.Throws<GraphicsValidationException>(() =>
+            GraphicsCommandValidation.ValidateIndexedIndirectIndexBufferOffset(2));
+        Assert.Throws<GraphicsValidationException>(() =>
+            GraphicsCommandValidation.ValidateIndexedIndirectIndexBufferOffset(4));
+    }
+
+    [Fact]
+    public void TextureCopyRejectsAliasedSourceAndDestination()
+    {
+        var device = CreateDevice();
+        var texture = new TestTexture(device, CreateTextureDescription(
+            GraphicsTextureUsage.CopySource | GraphicsTextureUsage.CopyDestination));
+        var other = new TestTexture(device, texture.Description);
+
+        GraphicsCommandValidation.ValidateTextureCopyNotAliased(texture, other);
+        Assert.Throws<GraphicsValidationException>(() =>
+            GraphicsCommandValidation.ValidateTextureCopyNotAliased(texture, texture));
+    }
+
+    [Fact]
+    public void GlesFailedSubmissionRecoveryCompletesListsBeforeContextGateIsReleased()
+    {
+        var lifecycle = new GraphicsCommandListLifecycle(GraphicsQueueType.Graphics);
+        lifecycle.Begin();
+        lifecycle.End();
+        lifecycle.MarkSubmitted();
+
+        object contextGate = new();
+        GraphicsCommandListState stateObservedByDisposer = GraphicsCommandListState.Pending;
+        var disposer = new Thread(() =>
+        {
+            lock (contextGate)
+                stateObservedByDisposer = lifecycle.State;
+        });
+
+        lock (contextGate)
+        {
+            GraphicsCommandListSubmissionRecovery.RecoverFailedSubmission(
+                new[] { lifecycle },
+                submittedCount: 1,
+                commandsStarted: true,
+                finishGpuWork: static () => { },
+                markCompleted: static list => list.MarkCompleted());
+            disposer.Start();
+        }
+
+        disposer.Join();
+        Assert.Equal(GraphicsCommandListState.Executable, stateObservedByDisposer);
+    }
+
+    [Fact]
+    public void GlesFailedSubmissionRecoveryLeavesListsPendingWhenFinishFails()
+    {
+        var lifecycle = new GraphicsCommandListLifecycle(GraphicsQueueType.Graphics);
+        lifecycle.Begin();
+        lifecycle.End();
+        lifecycle.MarkSubmitted();
+
+        Assert.Throws<InvalidOperationException>(() =>
+            GraphicsCommandListSubmissionRecovery.RecoverFailedSubmission(
+                new[] { lifecycle },
+                submittedCount: 1,
+                commandsStarted: true,
+                finishGpuWork: static () => throw new InvalidOperationException("Injected finish failure."),
+                markCompleted: static list => list.MarkCompleted()));
+
+        Assert.Equal(GraphicsCommandListState.Pending, lifecycle.State);
+    }
+
+
+    [Fact]
+    public void ConcurrentCompletionRecoveryIsIdempotent()
+    {
+        var lifecycle = new GraphicsCommandListLifecycle(GraphicsQueueType.Graphics);
+        lifecycle.Begin();
+        lifecycle.End();
+        lifecycle.MarkSubmitted();
+
+        Assert.True(lifecycle.TryMarkCompleted());
+        Assert.False(lifecycle.TryMarkCompleted());
+        Assert.Equal(GraphicsCommandListState.Executable, lifecycle.State);
+    }
+
     private static GraphicsDeviceFactoryTests.TestDevice CreateDevice(
         GraphicsFeature features = GraphicsFeature.None,
         params GraphicsFormatCapabilities[] formats) =>
@@ -566,8 +769,18 @@ public sealed class GraphicsReviewRegressionTests
     {
         public string? DebugName => null;
         public GraphicsTextureDescription Description { get; } = description;
-        public IGraphicsTextureView CreateView(in GraphicsTextureViewDescription description) =>
-            throw new NotSupportedException();
+        public IGraphicsTextureView CreateView(in GraphicsTextureViewDescription viewDescription) =>
+            new TestTextureView(this, viewDescription);
+        protected override void DisposeCore() { }
+    }
+
+    private sealed class TestTextureView(
+        IGraphicsTexture texture,
+        GraphicsTextureViewDescription description) : GraphicsDeviceObject(texture.Device), IGraphicsTextureView
+    {
+        public string? DebugName => null;
+        public IGraphicsTexture Texture { get; } = texture;
+        public GraphicsTextureViewDescription Description { get; } = description;
         protected override void DisposeCore() { }
     }
 

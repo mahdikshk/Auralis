@@ -136,11 +136,19 @@ public enum GraphicsMemoryPreference
     HostCached
 }
 
-/// <summary>Permitted CPU mapping access for a buffer.</summary>
+/// <summary>CPU access mode for a mapped buffer range.</summary>
 public enum GraphicsMapMode
 {
+    /// <summary>Reads existing contents without modifying them.</summary>
     Read,
+
+    /// <summary>
+    /// Discard/write-only mapping. Previous contents of the mapped range are undefined.
+    /// Initialize every byte that will be relied on; use ReadWrite when preserving old bytes.
+    /// </summary>
     Write,
+
+    /// <summary>Reads and writes the range while preserving its existing contents.</summary>
     ReadWrite
 }
 

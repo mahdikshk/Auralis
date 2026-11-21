@@ -19,7 +19,17 @@ public readonly record struct GraphicsDeviceLimits(
     uint MaxComputeWorkGroupSizeY,
     uint MaxComputeWorkGroupSizeZ,
     float MaxSamplerAnisotropy,
-    uint MaxTessellationPatchSize = 0);
+    uint MaxTessellationPatchSize = 0,
+    uint MaxColorAttachments = 0,
+    uint MaxColorDrawBuffers = 0,
+    uint MaxMeshWorkGroupCountX = 0,
+    uint MaxMeshWorkGroupCountY = 0,
+    uint MaxMeshWorkGroupCountZ = 0,
+    uint MaxMeshWorkGroupTotalCount = 0,
+    uint MaxTaskWorkGroupCountX = 0,
+    uint MaxTaskWorkGroupCountY = 0,
+    uint MaxTaskWorkGroupCountZ = 0,
+    uint MaxTaskWorkGroupTotalCount = 0);
 
 /// <summary>Describes the operations supported for a particular texture format.</summary>
 public readonly record struct GraphicsFormatCapabilities(
@@ -80,7 +90,10 @@ public sealed class GraphicsDeviceCapabilities
             GraphicsFeature.TimelineSynchronization | GraphicsFeature.SparseResources |
             GraphicsFeature.MultiViewport | GraphicsFeature.DepthBoundsTest |
             GraphicsFeature.LogicOperations | GraphicsFeature.WideLines |
-            GraphicsFeature.DepthClamp | GraphicsFeature.FillModeNonSolid;
+            GraphicsFeature.DepthClamp | GraphicsFeature.FillModeNonSolid |
+            GraphicsFeature.IndependentBlend | GraphicsFeature.DepthBiasClamp |
+            GraphicsFeature.SpirVShaders | GraphicsFeature.BaseVertexDrawing |
+            GraphicsFeature.BaseInstanceDrawing | GraphicsFeature.TextureViews;
         const GraphicsQueueCapabilities allQueues =
             GraphicsQueueCapabilities.Graphics | GraphicsQueueCapabilities.Compute |
             GraphicsQueueCapabilities.Copy | GraphicsQueueCapabilities.Present;
